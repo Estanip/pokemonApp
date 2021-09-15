@@ -1,11 +1,16 @@
 import './App.css';
+import { BrowserRouter as Router } from 'react-router-dom';
+import AppRouter from './routers/AppRouter';
+import Navigation from './components/Navigation';
 
-function App() {
+export default function App() {
+
   return (
     <div className="App">
-      <h1>Henry Pokemon</h1>
+        <Router>
+          <Navigation />
+          <AppRouter />
+        </Router>
     </div>
   );
-}
-
-export default App;
+};
