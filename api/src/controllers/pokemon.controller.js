@@ -114,32 +114,50 @@ const getPokemon = async (req, res) => {
     try {
 
         let pokNames = [];
+        let pokObj = [];
         /*     pokObj = [{
                 name,
                 types,
                 image
             }]
          */
+
+        // search in API to take the pokemons names        
         const result = await axios.get('https://pokeapi.co/api/v2/pokemon');
         const pokemons = result.data.results;
         pokemons.map(pokemon => {
             pokNames.push(pokemon.name)
         })
 
-        let pokObj = [];
 
+        // take the object for each pokemon
+        const resultado = await Promise.all(
+            pokNames.map(async (name) => {
+                return await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`)
+            })
+        );
 
-         pokNames.forEach(async (pokemon) => {
+        // create an object for each pokemon with name, types and image
+        pokNames.forEach(async (pokemon) => {
 
-            const result = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
-            const image = result.data.sprites.front_default;
-            const types = result.data.types.map(e => {
-                return e.type.name;
-            }) 
+            let image = [];
+            let types = [];
 
-        
-        }); 
+            resultado.forEach(pok => {
+                image = pok.data.sprites.front_default;
+                types = pok.data.types.map(e => {
+                    return e.type.name;
+                })
+
+                let obj = {
+                    name: pokemon,
+                    image,
+                    types
+                }
     
+                pokObj.push(obj)
+            })
+        })
 
         return res.status(200).json({
             data: pokObj
