@@ -3,14 +3,10 @@ const axios = require('axios');
 
 const getPokemons = async (req, res) => {
     try {
+
         const { name } = req.query;
 
-        if (!name) {
-            const pokemons = await axios.get('https://pokeapi.co/api/v2/pokemon');
-            return res.status(200).json({
-                data: pokemons.data.results
-            })
-        } else {
+        if (name) {
             let apiName = "";
             let dbName = "";
 
@@ -18,7 +14,7 @@ const getPokemons = async (req, res) => {
                 apiName = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`);
             }
             catch (err) {
-                console.log("Searching")
+                console.log("Searching pokemons on API")
             }
 
             try {
@@ -28,12 +24,12 @@ const getPokemons = async (req, res) => {
                     }
                 })
             } catch (err) {
-                console.log("Searching")
+                console.log("Searching Pokemons on DB")
             }
 
             if (apiName != "") {
                 return res.status(200).json({
-                    data: apiName.data.abilities
+                    data: apiName.data
                 });
             }
 
@@ -45,6 +41,15 @@ const getPokemons = async (req, res) => {
                 return res.status(400).json({
                     message: "No existen pokemones con ese nombre"
                 })
+            }
+        } else {
+            try {
+                const pokemons = await axios.get('https://pokeapi.co/api/v2/pokemon');
+                return res.status(200).json({
+                    data: pokemons.data.results
+                })
+            } catch (err) {
+                console.log("Searching Pokemons")
             }
         }
     } catch (err) {
@@ -104,4 +109,48 @@ const createPokemon = async (req, res) => {
     }
 };
 
-module.exports = { getPokemons, getById, createPokemon };
+const getPokemon = async (req, res) => {
+
+    try {
+
+        let pokNames = [];
+        /*     pokObj = [{
+                name,
+                types,
+                image
+            }]
+         */
+        const result = await axios.get('https://pokeapi.co/api/v2/pokemon');
+        const pokemons = result.data.results;
+        pokemons.map(pokemon => {
+            pokNames.push(pokemon.name)
+        })
+
+        let pokObj = [];
+
+
+         pokNames.forEach(async (pokemon) => {
+
+            const result = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
+            const image = result.data.sprites.front_default;
+            const types = result.data.types.map(e => {
+                return e.type.name;
+            }) 
+
+        
+        }); 
+    
+
+        return res.status(200).json({
+            data: pokObj
+        })
+
+    } catch (err) {
+        res.status(400).json({
+            error: err
+        })
+    }
+
+}
+
+module.exports = { getPokemons, getById, createPokemon, getPokemon };
