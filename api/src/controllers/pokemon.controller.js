@@ -6,10 +6,14 @@ const getPokemons = async (req, res) => {
 
         const { name } = req.query;
 
+        // validate if req query exist
         if (name) {
+
+            // variables to validate
             let apiName = "";
             let dbName = "";
 
+            // search in API
             try {
                 apiName = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`);
             }
@@ -17,6 +21,7 @@ const getPokemons = async (req, res) => {
                 console.log("Searching pokemons on API")
             }
 
+            // search in DB
             try {
                 dbName = await Pokemon.findAll({
                     where: {
@@ -43,6 +48,8 @@ const getPokemons = async (req, res) => {
                 })
             }
         } else {
+
+            // find all pokemons in API
             try {
                 const pokemons = await axios.get('https://pokeapi.co/api/v2/pokemon');
                 return res.status(200).json({
@@ -109,11 +116,14 @@ const createPokemon = async (req, res) => {
     }
 };
 
-const getPokemon = async (req, res) => {
+const getFiltPokemon = async (req, res) => {
 
     try {
 
+        // array with all pokemon names
         let pokNames = [];
+
+        // object filter to return
         let pokObj = [];
         /*     pokObj = [{
                 name,
@@ -122,7 +132,7 @@ const getPokemon = async (req, res) => {
             }]
          */
 
-        // search in API to take the pokemons names        
+        // search in API to get the pokemons names        
         const result = await axios.get('https://pokeapi.co/api/v2/pokemon');
         const pokemons = result.data.results;
         pokemons.map(pokemon => {
@@ -130,33 +140,29 @@ const getPokemon = async (req, res) => {
         })
 
 
-        // take the object for each pokemon
-        const resultado = await Promise.all(
+        // get object for each pokemon
+        const results = await Promise.all(
             pokNames.map(async (name) => {
                 return await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`)
             })
         );
 
         // create an object for each pokemon with name, types and image
-        pokNames.forEach(async (pokemon) => {
 
-            let image = [];
-            let types = [];
-
-            resultado.forEach(pok => {
-                image = pok.data.sprites.front_default;
-                types = pok.data.types.map(e => {
-                    return e.type.name;
-                })
-
-                let obj = {
-                    name: pokemon,
-                    image,
-                    types
-                }
-    
-                pokObj.push(obj)
+        results.forEach(pok => {
+            const image = pok.data.sprites.front_default;
+            const types = pok.data.types.map(e => {
+                return e.type.name;
             })
+            const name = pok.data.name;
+
+            let obj = {
+                name,
+                image,
+                types
+            }
+
+            pokObj.push(obj)
         })
 
         return res.status(200).json({
@@ -171,4 +177,4 @@ const getPokemon = async (req, res) => {
 
 }
 
-module.exports = { getPokemons, getById, createPokemon, getPokemon };
+module.exports = { getPokemons, getById, createPokemon, getFiltPokemon };

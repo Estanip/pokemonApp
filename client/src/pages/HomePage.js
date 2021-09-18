@@ -4,16 +4,12 @@ import axios from 'axios';
 export default function HomePage() {
 
     const [pokemons, setPokemons] = useState([]);
-    const [pokemonObject, setPokObject] = useState([]);
     const [inputSearch, setInput] = useState("");
 
     const getPokemons = async () => {
 
-        const result = await axios.get('http://localhost:3001/pokemons');
-        const pokemonsList = result.data.data;
-
-        setPokemons(pokemonsList)
-
+        const result = await axios.get('http://localhost:3001/pokemons/filter');
+        console.log(result)
     }
 
     const getPokemonByName = async () => {
