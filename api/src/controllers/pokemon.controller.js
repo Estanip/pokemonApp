@@ -14,74 +14,6 @@ const getPokemons = async (req, res) => {
     } catch (err) {
         console.log("Searching Pokemons")
     }
-}
-
-const getPokemonsByName = async (req, res) => {
-    try {
-
-        const { name } = req.query;
-
-        if(!name) {
-            return res.status(400).json({
-                message: "No se ingreso ningun pokemon"
-            })
-        }
-
-        // variables to validate
-        let apiPok = "";
-        let dbPok = "";
-        let pokObj = [];
-
-        // search in API
-        try {
-            apiPok = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`);
-            const pokName = apiPok.data.name
-            const image = apiPok.data.sprites.front_default
-            const types = apiPok.data.types.map(pok => {
-                return pok.type.name
-            })
-            pokObj = {
-                pokName,
-                image,
-                types
-            }
-        }
-        catch (err) {
-            console.log("Searching pokemons on API")
-        }
-
-        // search in DB
-        try {
-            dbPok = await Pokemon.findAll({
-                where: {
-                    name
-                }
-            })
-        } catch (err) {
-            console.log("Searching Pokemons on DB")
-        }
-
-        if (apiPok != "") {
-            return res.status(200).json({
-                data: pokObj
-            });
-        }
-
-        if (dbPok != "") {
-            return res.status(200).json({
-                data: dbName
-            })
-        }
-
-        return res.status(400).json({
-            message: "No existen pokemones con ese nombre"
-        })
-
-    } catch (err) {
-        return res.status(400).json({
-            error: err
-        })
-    }
 };
 
 const getById = async (req, res) => {
@@ -167,19 +99,21 @@ const getFiltPokemon = async (req, res) => {
             })
         );
 
-        // create an object for each pokemon with name, types and image
 
+        // create an object for each pokemon with name, types and image
         results.forEach(pok => {
             const image = pok.data.sprites.front_default;
             const types = pok.data.types.map(e => {
                 return e.type.name;
             })
+            const weight = pok.data.weight;
             const name = pok.data.name;
 
             let obj = {
                 name,
                 image,
-                types
+                types,
+                weight
             }
 
             pokObj.push(obj)
@@ -194,7 +128,241 @@ const getFiltPokemon = async (req, res) => {
             error: err
         })
     }
+};
 
-}
+const orderByName = async (req, res) => {
 
-module.exports = { getPokemonsByName, getById, createPokemon, getFiltPokemon };
+    try {
+
+        // array with all pokemon names
+        let pokNames = [];
+
+        // object filter to return
+        let pokObj = [];
+        /*     pokObj = [{
+                name,
+                types,
+                image
+            }]
+         */
+
+        // search in API to get the pokemons names        
+        /*        const result = await axios.get('https://pokeapi.co/api/v2/pokemon'); */
+        const p1 = await axios.get('https://pokeapi.co/api/v2/pokemon');
+        const p2 = await axios.get('https://pokeapi.co/api/v2/pokemon?offset=20&limit=20');
+        const promises = await Promise.all([p1, p2])
+        const result = [...promises[0].data.results, ...promises[1].data.results]
+        result.forEach(pokemon => {
+            pokNames.push(pokemon.name)
+        })
+
+        // get object for each pokemon
+        const results = await Promise.all(
+            pokNames.map(async (name) => {
+                return await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`)
+            })
+        );
+
+
+        // create an object for each pokemon with name, types and image
+        results.forEach(pok => {
+            const image = pok.data.sprites.front_default;
+            const types = pok.data.types.map(e => {
+                return e.type.name;
+            })
+            const weight = pok.data.weight;
+            const name = pok.data.name;
+
+            let obj = {
+                name,
+                image,
+                types,
+                weight
+            }
+
+            pokObj.push(obj)
+        })
+
+        // sort fn for object arrays
+        function sortOn(arr, prop) {
+            arr.sort(
+                function (a, b) {
+                    if (a[prop] < b[prop]) {
+                        return -1;
+                    } else if (a[prop] > b[prop]) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                }
+            );
+        }
+
+        // eject sort fn
+        sortOn(pokObj, "name");
+
+
+        return res.status(200).json({
+            data: pokObj
+        })
+
+    } catch (err) {
+        res.status(400).json({
+            error: err
+        })
+    }
+};
+
+const orderByForce = async (req, res) => {
+
+    try {
+
+        // array with all pokemon names
+        let pokNames = [];
+
+        // object filter to return
+        let pokObj = [];
+        /*     pokObj = [{
+                name,
+                types,
+                image
+            }]
+         */
+
+        // search in API to get the pokemons names        
+        /*        const result = await axios.get('https://pokeapi.co/api/v2/pokemon'); */
+        const p1 = await axios.get('https://pokeapi.co/api/v2/pokemon');
+        const p2 = await axios.get('https://pokeapi.co/api/v2/pokemon?offset=20&limit=20');
+        const promises = await Promise.all([p1, p2])
+        const result = [...promises[0].data.results, ...promises[1].data.results]
+        result.forEach(pokemon => {
+            pokNames.push(pokemon.name)
+        })
+
+        // get object for each pokemon
+        const results = await Promise.all(
+            pokNames.map(async (name) => {
+                return await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`)
+            })
+        );
+
+
+        // create an object for each pokemon with name, types and image
+        results.forEach(pok => {
+            const image = pok.data.sprites.front_default;
+            const types = pok.data.types.map(e => {
+                return e.type.name;
+            })
+            const weight = pok.data.weight;
+            const name = pok.data.name;
+
+            let obj = {
+                name,
+                image,
+                types,
+                weight
+            }
+
+            pokObj.push(obj)
+        })
+
+        // sort fn for object arrays
+        function sortOn(arr, prop) {
+            arr.sort(
+                function (a, b) {
+                    if (a[prop] < b[prop]) {
+                        return -1;
+                    } else if (a[prop] > b[prop]) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                }
+            );
+        }
+
+        // eject sort fn
+        sortOn(pokObj, "weight");
+
+
+        return res.status(200).json({
+            data: pokObj
+        })
+
+    } catch (err) {
+        res.status(400).json({
+            error: err
+        })
+    }
+
+};
+
+const getPokemonsByName = async (req, res) => {
+    try {
+
+        const { name } = req.query;
+
+        if (!name) {
+            return res.status(400).json({
+                message: "No se ingreso ningun pokemon"
+            })
+        }
+
+        // variables to validate
+        let apiPok = "";
+        let dbPok = "";
+        let pokObj = [];
+
+        // search in API
+        try {
+            apiPok = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`);
+            const pokName = apiPok.data.name
+            const image = apiPok.data.sprites.front_default
+            const types = apiPok.data.types.map(pok => {
+                return pok.type.name
+            })
+            pokObj = {
+                pokName,
+                image,
+                types
+            }
+        }
+        catch (err) {
+            console.log("Searching pokemons on API")
+        }
+
+        // search in DB
+        try {
+            dbPok = await Pokemon.findAll({
+                where: {
+                    name
+                }
+            })
+        } catch (err) {
+            console.log("Searching Pokemons on DB")
+        }
+
+        if (apiPok != "") {
+            return res.status(200).json({
+                data: pokObj
+            });
+        }
+
+        if (dbPok != "") {
+            return res.status(200).json({
+                data: dbName
+            })
+        }
+
+        return res.status(400).json({
+            message: "No existen pokemones con ese nombre"
+        })
+
+    } catch (err) {
+        return res.status(400).json({
+            error: err
+        })
+    }
+};
+
+module.exports = { getPokemonsByName, getById, createPokemon, getFiltPokemon, orderByName, orderByForce };

@@ -5,27 +5,61 @@ export default function HomePage() {
 
     const [pokemons, setPokemons] = useState([]);
     const [pokemon, setPokemon] = useState([]);
-    const [pokemonsFilter, setPokemonsFilter] = useState([])
+    const [pokemonsFilter, setPokemonsFilter] = useState([]);
+    const [orderSetter, setOrder] = useState(0)
     const [inputSearch, setInput] = useState("");
+    const [page, setPage] = useState(0);
+    const [filter, setFilter] = useState("");
     const [message, setMessage] = useState("");
-    const [filter, setFilter] = useState("")
 
     // show all pokemons
     const getPokemons = async () => {
 
         const result = await axios.get('http://localhost:3001/pokemons/filter');
-        const pokObj = result.data.data;
-        setPokemons(pokObj)
+        const pokemons = result.data.data;
+        
+        if(page === 0) {
+            const currentPage = pokemons.slice(0, 9)
+            setPokemons(currentPage)
+        }
+        if(page === 1) {
+            const page1 = pokemons.slice(9, 21)
+            setPokemons(page1)
+        }
+        if(page === 2) {
+            const page2 = pokemons.slice(21, 30)
+            setPokemons(page2)
+        }
+        if(page === 3) {
+            const page3 = pokemons.slice(30, pokemons.length - 1)
+            setPokemons(page3)
+        }
+        if(page < 0) {
+            setPage(0)
+            setMessage("No hay mas paginas a mostrar")
+        }
+        if(page > 3) {
+            setPage(3) 
+            setMessage("No hay mas paginas a mostrar")
+        }
+        
+        setTimeout(() => {
+            setMessage("")
+        }, 3000);
+
     };
+
+    console.log(page)
 
     // show pokemon search by name
     const getPokemonByName = async () => {
 
         try {
             const result = await axios.get(`http://localhost:3001/pokemons?name=${inputSearch}`)
-            const pok = result.data.data;
+            const pokemon = result.data.data;
             setPokemons([])
-            setPokemon(pok)
+            setPokemonsFilter([])
+            setPokemon(pokemon)
             setMessage("Pokemon Encontrado!")
         } catch (err) {
             setMessage("No existen pokemon con ese nombre")
@@ -42,15 +76,16 @@ export default function HomePage() {
 
         try {
             const result = await axios.get('http://localhost:3001/pokemons/filter');
-            const pokObj = result.data.data;
-            const pokFil = [];
-            for (let i = 0; i < pokObj.length; i++) {
-                if (pokObj[i].types.includes(filter)) {
-                    pokFil.push(pokObj[i]);
+            const pokemons = result.data.data;
+            const pokemonsFilter = [];
+            for (let i = 0; i < pokemons.length; i++) {
+                if (pokemons[i].types.includes(filter)) {
+                    pokemonsFilter.push(pokemons[i]);
                 }
             }
-            setPokemonsFilter(pokFil);
             setPokemons([]);
+            setPokemon([]);
+            setPokemonsFilter(pokemonsFilter);
         } catch (err) {
             setMessage("No existen pokemon con ese tipo")
         }
@@ -60,31 +95,58 @@ export default function HomePage() {
 
     };
 
-    const handleOnChange = (e) => {
-        const { value } = e.target;
-        setInput(value)
+    const orderByName = async () => {
+
+        setOrder(orderSetter + 1);
+        setPokemons([]);
+
+        const result = await axios.get('http://localhost:3001/pokemons/orderbyname');
+        const pokByName = result.data.data;
+
+        if(orderSetter % 2 === 0) {
+            setPokemons(pokByName);
+        } else if(orderSetter % 2 !== 0) {
+            pokByName.reverse();
+            setPokemons(pokByName);
+        }
     };
 
-    const handleFilter = (e) => {
-        const { value } = e.target;
-        setFilter(value)
+    const orderByForce = async () => {
+
+        setOrder(orderSetter + 1);
+        setPokemons([]);
+
+        const result = await axios.get('http://localhost:3001/pokemons/orderbyforce');
+        const pokByForce = result.data.data; 
+
+        if(orderSetter % 2 === 0) {
+            setPokemons(pokByForce);
+        } else if(orderSetter % 2 !== 0) {
+            pokByForce.reverse();
+            setPokemons(pokByForce);
+        }
     };
 
     useEffect(() => {
         getPokemons()
-    }, []);
+    }, [page]);
 
 
     return (
         <div>
             <h1>Home</h1>
             <div>
-                <input onChange={handleOnChange} name="inputName" placeholder="Busca Tu Pokemon" />
-                <button onClick={getPokemonByName} >Search!</button>
+                <input onChange={(e) => setInput(e.target.value)} name="inputName" placeholder="Busca Tu Pokemon" />
+                <button onClick={getPokemonByName} >Search by Name!</button>
 
                 {message && message}
-                <input onChange={handleFilter} name="inputType" placeholder="Busca por Tipo" />
-                <button onClick={getByType}  >Search!</button>
+                <input onChange={(e) => setFilter(e.target.value)} name="inputType" placeholder="Busca por Tipo" />
+                <button onClick={getByType}>Search by Type!</button>
+                <button onClick={orderByName}>Order by Name</button>
+                <button onClick={orderByForce}>Order by Force</button>
+
+                <button onClick={() => setPage(page - 1)}>Previous</button>
+                <button onClick={() => setPage(page + 1)}>Next</button>
 
             </div>
             <div>
@@ -166,6 +228,7 @@ export default function HomePage() {
                                 <th>Name</th>
                                 <th>Types</th>
                                 <th>Image</th>
+                                <th>Weight</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -187,6 +250,7 @@ export default function HomePage() {
                                         alt="Pokemon"
                                     />
                                     </td>
+                                    <td>{pokemon.weight}</td>
                                 </tr>
                             ))}
                         </tbody>
