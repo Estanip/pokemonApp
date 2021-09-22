@@ -213,7 +213,7 @@ const orderByName = async (req, res) => {
     }
 };
 
-const orderByForce = async (req, res) => {
+const orderByWeight = async (req, res) => {
 
     try {
 
@@ -316,13 +316,13 @@ const getPokemonsByName = async (req, res) => {
         // search in API
         try {
             apiPok = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`);
-            const pokName = apiPok.data.name
+            const pokemonName = apiPok.data.name
             const image = apiPok.data.sprites.front_default
             const types = apiPok.data.types.map(pok => {
                 return pok.type.name
             })
             pokObj = {
-                pokName,
+                pokemonName,
                 image,
                 types
             }
@@ -365,4 +365,4 @@ const getPokemonsByName = async (req, res) => {
     }
 };
 
-module.exports = { getPokemonsByName, getById, createPokemon, getFiltPokemon, orderByName, orderByForce };
+module.exports = { getPokemonsByName, getById, createPokemon, getFiltPokemon, orderByName, orderByWeight };
