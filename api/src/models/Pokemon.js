@@ -17,7 +17,7 @@ module.exports = (sequelize) => {
     life: {
       type: DataTypes.INTEGER
     },
-    force: {
+    attack: {
       type: DataTypes.INTEGER
     },
     defense: {

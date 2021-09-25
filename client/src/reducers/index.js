@@ -1,6 +1,8 @@
 const initialState = {
     pokemons: [],
-    pokemon: []
+    pokemonsLoaded: [],
+    pokemon: [],
+    types: []
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -8,15 +10,31 @@ const rootReducer = (state = initialState, action) => {
         case 'GET_POKEMONS':
             return {
                 ...state,
-                pokemons: action.data        
+                pokemons: action.data,
+                pokemonsLoaded: action.data        
+            }
+        case 'GET_TYPES':
+            return {
+                ...state,
+                types: action.data
+            }
+        case 'GET_DB_POKEMONS':
+            return {
+                ...state,
+                pokemons: action.data
             }
         case 'GET_POKEMON_BY_NAME':
+            return {
+                ...state,
+                pokemons: [action.data]
+            }
+        case 'GET_POKEMON_BY_ID':
             return {
                 ...state,
                 pokemon: action.data
             }
         case 'GET_POKEMONS_BY_TYPE':
-            let pokemonsList = [...state.pokemons]
+          let pokemonsList = [...state.pokemonsLoaded]
             return {
                 ...state,
                 pokemons: pokemonsList.filter(e => e.types.includes(action.payload))
@@ -33,7 +51,7 @@ const rootReducer = (state = initialState, action) => {
                     pokemons: action.data.reverse()
                 }
             }
-        case 'GET_POKEMONS_ORDER_BY_WEIGHT':
+        case 'GET_POKEMONS_ORDER_BY_FORCE':
             if(action.payload === "ascendent") {
                 return {
                     ...state,
@@ -44,6 +62,11 @@ const rootReducer = (state = initialState, action) => {
                     ...state,
                     pokemons: action.data
                 }
+            }
+        case 'CREATE_POKEMON':
+            return {
+                ...state,
+                pokemons: state.pokemons.push(action.payload)
             }
     default:
         return state;

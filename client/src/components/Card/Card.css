@@ -1,0 +1,14 @@
+.card {
+
+    margin-bottom: 20px;
+    display: inline-block;
+    border: 1px solid black;
+    width: 300px;
+    height: auto;
+}
+
+.img {
+    max-width:100%;
+    height:auto;
+}
+

@@ -1,123 +1,68 @@
 import React, { useState, useEffect } from 'react';
-import { getOrderByName, getOrderByWeight, getPokemons, getPokemonByName, getPokemonsByType } from '../../actions/index';
+import { getOrderByName, getOrderByForce, getPokemons,getDbPokemons } from '../../actions/index';
 import { connect } from 'react-redux';
+import Cards from '../../components/Cards/Cards';
+import Card from '../../components/Card/Card';
+import SearchBy from '../../components/SearchBy/SearchBy';
 
-function Home({ pokemons, pokemon, getPokemons, getPokemonByName, getOrderByName, getOrderByWeight, getPokemonsByType}) {
+function Home({ pokemons, getPokemons, getOrderByName, getOrderByForce, getDbPokemons }) {
 
-    const [inputName, setInput] = useState("");
-    const [inputType, setInputType] = useState("");
-    const [orderSetter, setOrder] = useState(0)
+    const [loading, setLoading] = useState(true);
+    const [orderSetter, setOrder] = useState(0);
     const [page, setPage] = useState(0);
     const [message, setMessage] = useState("");
 
     useEffect(() => {
 
-        getPokemons()
+        const getData = async () => {
+            await getPokemons();
+            setLoading(false)
+        }
+
+        getData(); 
 
     }, []);
 
-    console.log("POKEMON", pokemons)
+    console.log(pokemons)
 
     return (
         <div>
             <h1>Home</h1>
-            <div>
-
-            </div>
-            <div>
 
                 <button onClick={() => getOrderByName("ascendent")}>Ascendent Order</button>
                 <button onClick={() => getOrderByName("descendent")}>Descendent Order</button>
-                <button onClick={() => getOrderByWeight("ascendent")}>Ascendent Order</button>
-                <button onClick={() => getOrderByWeight("descendent")}>Descendent Order</button>
+                <button onClick={() => getOrderByForce("ascendent")}>Ascendent Order</button>
+                <button onClick={() => getOrderByForce("descendent")}>Descendent Order</button>
+                <button onClick={() => getDbPokemons()}>DB Pokemons</button>
 
-                <input onChange={(e) => setInput(e.target.value)} name="inputName" placeholder="Busca Tu Pokemon" />
-                <button onClick={() => getPokemonByName(inputName)} >Search by Name!</button>
+                <SearchBy />
 
-                <input onChange={(e) => setInputType(e.target.value)} name="inputType" placeholder="Busca por Tipo" />
-                <button onClick={() => getPokemonsByType(inputType)}>Search by Type!</button>
+                {loading === true 
 
-                {pokemon.pokemonName !== undefined
+                ?
 
-                    ?
-
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Types</th>
-                                <th>Image</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{pokemon.pokemonName}</td>
-                                <td>
-                                    {pokemon.types.map(e => {
-                                        return <ul>
-                                            <li>
-                                                {e}
-                                            </li>
-                                        </ul>;
-                                    })
-                                    }
-                                </td>
-                                <td><img
-                                    src={pokemon.image}
-                                    alt="Pokemon"
-                                />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    :
-
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Types</th>
-                                <th>Image</th>
-                                <th>Weight</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {pokemons.map(pokemon => (
-                                <tr>
-                                    <td>{pokemon.name}</td>
-                                    <td>
-                                        {pokemon.types.map(e => {
-                                            return <ul>
-                                                <li>
-                                                    {e}
-                                                </li>
-                                            </ul>;
-                                        })
-                                        }
-                                    </td>
-                                    <td><img
-                                        src={pokemon.image}
-                                        alt="Pokemon"
-                                    />
-                                    </td>
-                                    <td>{pokemon.weight}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                <div><h1>Buscando COQUEMONES</h1></div>
+                
+                :
+                    <Cards>
+                        {pokemons.map((e,i) => <Card key={i} id={e.id} name={e.name} image={e.image} types={e.types} weight={e.weight}/>)}
+                    </Cards>
                 }
 
+{/*               {pokemon.length && 
+                    
+                    <Cards>
+                        <Card key={pokemon.id} id={pokemon.id} name={pokemon.pokemonName} image={pokemon.image} types={pokemon.types} weight={pokemon.weight}/>
+                    </Cards>
+                } */}
+
             </div>
-        </div>
-    )
-}
+)}
 
 const mapStateToProps = (state) => {
 
     return {
-        pokemons: state.pokemons,
-        pokemon: state.pokemon
+            pokemons: state.pokemons
     }
 };
 
@@ -126,9 +71,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         getPokemons: () => dispatch(getPokemons()),
         getOrderByName: (order) => dispatch(getOrderByName(order)),
-        getOrderByWeight: (order) => dispatch(getOrderByWeight(order)),
-        getPokemonByName: (name) => dispatch(getPokemonByName(name)),
-        getPokemonsByType: (type) => dispatch(getPokemonsByType(type))
+        getOrderByForce: (order) => dispatch(getOrderByForce(order)),
+        getDbPokemons: () => dispatch(getDbPokemons())
     }
 };
 

@@ -8,26 +8,35 @@ const createTypes = async (req, res) => {
         let apiTypes;
         let dbTypeNames;
 
-        apiTypes = await axios.get('https://pokeapi.co/api/v2/type');
+        let pokemonsDb = await Tipo.findAll();
 
-        const apiTypesResults = apiTypes.data.results;
+        console.log(pokemonsDb.length)
 
-        var typeNames = apiTypesResults.map((e) => {
-            var newObj = {};
-            newObj["name"] = e.name;
-            return newObj;
-        });
+        if (pokemonsDb.length === 0) {
 
-        try {
-            dbTypeNames = await Tipo.bulkCreate(typeNames);
-        } catch (err) {
-            console.log("Creating DB")
+            // get all pokemons types from API
+            apiTypes = await axios.get('https://pokeapi.co/api/v2/type');
+
+            const apiTypesResults = apiTypes.data.results;
+
+            // get just the names of all types
+            var typeNames = apiTypesResults.map((e) => {
+                var newObj = {};
+                newObj["name"] = e.name;
+                return newObj;
+            });
+
+            try {
+                dbTypeNames = await Tipo.bulkCreate(typeNames);
+            } catch (err) {
+                console.log("Creating DB")
+            }
+
+            return res.status(200).json(dbTypeNames)
+
         }
 
-        return res.status(200).json({
-            data: dbTypeNames
-        })
-
+        return res.status(200).json(pokemonsDb)
     }
     catch (err) {
         res.status(400).json({
@@ -45,15 +54,13 @@ const getByType = async (req, res) => {
 
         try {
             await createTypes();
-        } catch(err) {
+        } catch (err) {
             console.log("Saving on DB")
         }
 
         types = await Tipo.findAll();
 
-        return res.status(200).json({
-            data: types
-        })
+        return res.status(200).json(types)
 
     } catch (err) {
         return res.status(400).json({

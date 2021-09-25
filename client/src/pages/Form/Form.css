@@ -1,0 +1,9 @@
+.formContainer {
+    display: flex;
+
+}
+
+.form {
+    display: grid;
+    margin: 20px;
+}
