@@ -7,9 +7,7 @@ import routes from '../../helpers/routes';
 
 function PokemonDetail({ pokemon, getPokemonById }) {
 
-    const {id} = useParams()
-
-     console.log(id)
+    const {id} = useParams();
 
     useEffect(() => {
 
@@ -19,7 +17,7 @@ function PokemonDetail({ pokemon, getPokemonById }) {
 
         getPokemon();
 
-    }, [])
+    }, []);
 
     return (
         <div>
@@ -32,19 +30,19 @@ function PokemonDetail({ pokemon, getPokemonById }) {
                         <div>
                             <ul>
                                 {pokemon.types.map(e => (
-                                    <li>{e.type.name}</li>
+                                    <li>{e}</li>
                                 )
                                 )}
                             </ul>
                         </div>
     
-                    <img src={pokemon.sprites.front_default}></img>
+                    <img src={pokemon.image}></img>
                     <h2>{pokemon.id}</h2>
                     <ul>
-                        <li>Life: {pokemon.stats[0].base_stat}</li>
-                        <li>Attack: {pokemon.stats[1].base_stat}</li>
-                        <li>Defense: {pokemon.stats[2].base_stat}</li>
-                        <li>Speed: {pokemon.stats[5].base_stat}</li>
+                        <li>Life: {pokemon.life}</li>
+                        <li>Attack: {pokemon.attack}</li>
+                        <li>Defense: {pokemon.defense}</li>
+                        <li>Speed: {pokemon.speed}</li>
                     </ul>
                     <ul>
                         <li>Height: {pokemon.height}</li>
@@ -53,7 +51,7 @@ function PokemonDetail({ pokemon, getPokemonById }) {
                 </div>
             }
 
-        <Link to={routes.home}>Return</Link>
+        <Link to={routes.home}>Volver</Link>
 
         </div>
     )

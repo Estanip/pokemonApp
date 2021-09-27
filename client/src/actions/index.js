@@ -2,45 +2,53 @@ import axios from 'axios';
 
 export function getPokemons() {
     return async function (dispatch) {
-        const result = await axios.get('http://localhost:3001/pokemons/filter');
-        const pokemonList = result.data
-        return dispatch({
-            type: 'GET_POKEMONS',
-            data: pokemonList
-        })
+        try {
+            const apiPok = await axios.get('http://localhost:3001/pokemons/all');
+            const dbPok = await axios.get('http://localhost:3001/pokemons/db');
+            const pokemonList = [...apiPok.data, ...dbPok.data]
+            return dispatch({
+                type: 'GET_POKEMONS',
+                data: pokemonList
+            })
+        } catch (err) {
+            console.log(err)
+        }
     }
 };
 
 export function getDbPokemons() {
-    return async function(dispatch) {
-        const pokemons = await axios.get('http://localhost:3001/pokemons/db');
-        return dispatch({
-            type: 'GET_DB_POKEMONS',
-            data: pokemons.data
-        })
+    return async function (dispatch) {
+        try {
+            const pokemons = await axios.get('http://localhost:3001/pokemons/db');
+            return dispatch({
+                type: 'GET_DB_POKEMONS',
+                data: pokemons.data
+            })
+        } catch (err) {
+            console.log(err)
+        }
     }
 };
 
 export function getPokemonById(id) {
-    return async function(dispatch) {
-        const result = await axios.get(`http://localhost:3001/pokemons/${id}`);
-        return dispatch({
-            type: 'GET_POKEMON_BY_ID',
-            data: result.data,
-            payload: id
-        })
+    return async function (dispatch) {
+        try {
+            const result = await axios.get(`http://localhost:3001/pokemons/${id}`);
+            return dispatch({
+                type: 'GET_POKEMON_BY_ID',
+                data: result.data,
+                payload: id
+            })
+        } catch (err) {
+            console.log(err)
+        }
     }
 };
 
 export function getPokemonByName(name) {
-    return async function (dispatch) {
-        const result = await axios.get(`http://localhost:3001/pokemons?pokemonName=${name}`)
-        const pokemon = result
-        return dispatch({
-            type: 'GET_POKEMON_BY_NAME',
-            data: pokemon.data,
-            payload: name
-        })
+    return {
+        type: 'GET_POKEMON_BY_NAME',
+        payload: name
     }
 };
 
@@ -51,32 +59,22 @@ export function getPokemonsByType(type) {
     }
 };
 
-export function getOrderByName(order) {
+export function getTypes() {
     return async function (dispatch) {
-        const result = await axios.get('http://localhost:3001/pokemons/orderbyname');
-        const pokByName = result.data
-        return dispatch({
-            type: 'GET_POKEMONS_ORDER_BY_NAME',
-            data: pokByName,
-            payload: order
-        })
-    }
-};
-
-export function getOrderByForce(order) {
-    return async function (dispatch) {
-        const result = await axios.get('http://localhost:3001/pokemons/orderByForce');
-        const pokByForce = result.data
-        return dispatch({
-            type: 'GET_POKEMONS_ORDER_BY_FORCE',
-            data: pokByForce,
-            payload: order
-        })
+        try {
+            const results = await axios.get('http://localhost:3001/types');
+            return dispatch({
+                type: 'GET_TYPES',
+                data: results.data
+            })
+        } catch (err) {
+            console.log(err)
+        }
     }
 };
 
 export function createPokemon(data) {
-    return async function(dispatch) {
+    return async function (dispatch) {
         const newPokemon = await axios.post('http://localhost:3001/pokemons', data)
         return dispatch({
             type: 'CREATE_POKEMON',
@@ -86,13 +84,16 @@ export function createPokemon(data) {
     }
 };
 
-export function getTypes() {
-    return async function(dispatch) {
-        const results = await axios.get('http://localhost:3001/types');
-        return dispatch({
-            type: 'GET_TYPES',
-            data: results.data
-        })
+export function orderByName(order) {
+    return {
+        type: 'ORDER_BY_NAME',
+        payload: order
     }
 };
 
+export function orderByForce(order) {
+    return {
+        type: 'ORDER_BY_FORCE',
+        payload: order
+    }
+};

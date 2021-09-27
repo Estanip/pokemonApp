@@ -29,7 +29,7 @@ const createTypes = async (req, res) => {
             try {
                 dbTypeNames = await Tipo.bulkCreate(typeNames);
             } catch (err) {
-                console.log("Creating DB")
+                console.log("Cannot create Type")
             }
 
             return res.status(200).json(dbTypeNames)
@@ -55,7 +55,7 @@ const getByType = async (req, res) => {
         try {
             await createTypes();
         } catch (err) {
-            console.log("Saving on DB")
+            console.log("Type cannot be saved")
         }
 
         types = await Tipo.findAll();

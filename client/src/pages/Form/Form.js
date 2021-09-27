@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
+import Multi from 'react-select';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { createPokemon, getTypes } from '../../actions';
+import { createPokemon, getPokemons, getTypes } from '../../actions';
 import routes from '../../helpers/routes';
 import './Form.css'
 
 
-function Form({ pokemons, createPokemon, getTypes, types }) {
+function Form({ createPokemon, getTypes, types, getPokemons, pokemons }) {
 
     const initialState = ({
         name: "",
@@ -15,34 +16,63 @@ function Form({ pokemons, createPokemon, getTypes, types }) {
         defense: 0,
         speed: 0,
         height: 0,
-        weight: 0
+        weight: 0,
+        types: []
     });
 
     const [pokemon, setPokemon] = useState(initialState);
-    const [pokemonTypes, setPokemonTypes] = useState({ types: [] });
+    const [message, setMessage] = useState("");
 
     let history = useHistory();
+    let typesOption = [];
+    types.map(e => typesOption.push({ value: e.name, label: e.name }))
 
     const handleOnChange = (e) => {
-
         const { name, value } = e.target;
-
         setPokemon({
             ...pokemon,
-            [name]: value
+            [name]: value.toLowerCase()
         })
-
     };
 
-    const handleSubmit = () => {
-    
-        let pok = { ...pokemon, ...pokemonTypes };
-        createPokemon(pok)
-        history.push(routes.home)
+    const handleChangeCheck = (e) => {
+        let type = [];
+        e.map(item => type.push((item.value).toString()))
+        setPokemon({
+            ...pokemon,
+            types: type
+        })
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+
+        let result = pokemons.filter(e => e.name.includes(pokemon.name))
+
+        if (pokemon.types.length === 0) {
+            setMessage("No se ha seleccionado ningun tipo");
+            return;
+        }
+        if (pokemon.types.length > 2) {
+            setMessage("No se puede seleccionar mas de dos tipos");
+            return;
+        }
+
+        if (result.length > 0) {
+            setMessage("Nombre existente, intente con otro");
+        } else {
+            createPokemon(pokemon)
+            history.push(routes.home)
+        }
+
+        setTimeout(() => {
+            setMessage("")
+        }, 3000);
     };
 
     useEffect(() => {
-        getTypes()
+        getPokemons();
+        getTypes();
     }, []);
 
     return (
@@ -50,32 +80,28 @@ function Form({ pokemons, createPokemon, getTypes, types }) {
 
             <h2>Diseña tu Pokemon!</h2>
 
-            <form className='form' onSubmit={handleSubmit}>
+            <form className='form' onSubmit={(e) => handleSubmit(e)}>
 
-                <input type="text" name="name" onChange={handleOnChange} placeholder='Pokemon Name'/>
+                <input type="text" name="name" onChange={(e) => handleOnChange(e)} placeholder='Pokemon Name' minlength="3" maxlength="10" required />
 
-                <input type="number" name="life" onChange={handleOnChange} placeholder='Life'/>  
-            
-                <input type="number" name="attack" onChange={handleOnChange} placeholder='Attack'/>
+                <input type="number" name="life" onChange={(e) => handleOnChange(e)} placeholder='Life' min="1" max="100" required />
 
-                <input type="number" name="defense" onChange={handleOnChange}  placeholder='Defense'/>
+                <input type="number" name="attack" onChange={(e) => handleOnChange(e)} placeholder='Attack' min="1" max="100" required />
 
-                <input type="number" name="speed" onChange={handleOnChange} placeholder='Speed' />
+                <input type="number" name="defense" onChange={(e) => handleOnChange(e)} placeholder='Defense' min="1" max="100" required />
 
-                <input type="number" name="height" onChange={handleOnChange} placeholder='Height'/>
+                <input type="number" name="speed" onChange={(e) => handleOnChange(e)} placeholder='Speed' min="1" max="100" required />
 
-                <input type="number" name="weight" onChange={handleOnChange} placeholder='Weight' />
+                <input type="number" name="height" onChange={(e) => handleOnChange(e)} placeholder='Height' min="1" max="100" required />
 
-                <label>Tipo/s</label>
-                <div id="checkboxes" onChange={(e) => setPokemonTypes({ types: [...pokemonTypes.types, e.target.value] })}>
- Tipos
-                    <ul>
-                        {types.map(e => (
-                            <li><input type="checkbox" value={e.name} />{e.name}</li>
+                <input type="number" name="weight" onChange={(e) => handleOnChange(e)} placeholder='Weight' min="1" max="100" required />
 
-                        ))}
-                    </ul>
-                </div>
+                {message}
+
+                <label>
+                    <span>Tipos</span>
+                    <Multi isMulti name='tipos' closeMenuOnSelect={false} options={typesOption} onChange={(e) => handleChangeCheck(e)} />
+                </label>
 
                 <button type="submit">Guardar Pokemon</button>
 
@@ -94,6 +120,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         createPokemon: (data) => dispatch(createPokemon(data)),
+        getPokemons: () => dispatch(getPokemons()),
         getTypes: () => dispatch(getTypes())
     }
 }

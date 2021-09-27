@@ -4,7 +4,7 @@ import './Card.css'
 
 export default function Card(props) {
 
-    const { id, name, image, types, weight = [] } = props;   
+    const { id, name, image, types, force = [] } = props;   
     
     return (
 
@@ -23,7 +23,7 @@ export default function Card(props) {
                     <p >{}</p>
                 </div>
             </div>
-            <p>{weight}</p>
+            <p>{force}</p>
             <ul>
                 {types.map(e => (<li>{e}</li>))}
             </ul>

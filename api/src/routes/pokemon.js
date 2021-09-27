@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getPokemonById, createPokemon, getFiltPokemon, getPokemonsByName, orderPokemonByName, getDbPokemons, orderPokemonByForce } = require('../controllers/pokemon.controller');
+const { getPokemonById, createPokemon, getPokemons, getPokemonsByName, getDbPokemons } = require('../controllers/pokemon.controller');
 
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
@@ -17,13 +17,7 @@ router.get('/', getPokemonsByName);
 router.get('/db', getDbPokemons);
 
 // filter pokemon name, types and image
-router.get('/filter', getFiltPokemon);
-
-// order by name
-router.get('/orderbyname', orderPokemonByName);
-
-// order by force
-router.get('/orderByForce', orderPokemonByForce);
+router.get('/all', getPokemons);
 
 // find by id
 router.get('/:id', getPokemonById);
