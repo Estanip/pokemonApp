@@ -25,7 +25,7 @@ function Form({ createPokemon, getTypes, types, getPokemons, pokemons }) {
 
     let history = useHistory();
     let typesOption = [];
-    types.map(e => typesOption.push({ value: e.name, label: e.name }))
+    types.map(e => typesOption.push({ value: e.id, label: e.name }))
 
     const handleOnChange = (e) => {
         const { name, value } = e.target;

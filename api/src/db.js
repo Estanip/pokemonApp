@@ -34,7 +34,7 @@ const { Pokemon, Tipo } = sequelize.models;
 
 // Aca vendrian las relaciones
 Pokemon.belongsToMany(Tipo, {through: "PokemonTypes"});
-Tipo.belongsToMany(Pokemon, {through: "PokemonTypes"})
+Tipo.belongsToMany(Pokemon, {through: "PokemonTypes"});
 
 
 module.exports = {

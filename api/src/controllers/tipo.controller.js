@@ -10,8 +10,6 @@ const createTypes = async (req, res) => {
 
         let pokemonsDb = await Tipo.findAll();
 
-        console.log(pokemonsDb.length)
-
         if (pokemonsDb.length === 0) {
 
             // get all pokemons types from API

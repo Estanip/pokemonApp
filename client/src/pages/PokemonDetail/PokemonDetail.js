@@ -47,7 +47,7 @@ function PokemonDetail({ pokemon, getPokemonById }) {
 
                     </div>
                     <div className='Img__card'>
-                        <img src={pokemon.image} alt={pokemon.name} />
+                        <img src={pokemon.image ? pokemon.image : "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/1.png"} alt={pokemon.name} />
 
                     </div>
 

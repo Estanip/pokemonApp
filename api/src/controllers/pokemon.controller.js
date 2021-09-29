@@ -1,4 +1,5 @@
 const { Pokemon } = require('../db');
+const { Tipo } = require('../db')
 const axios = require('axios');
 
 /* const getApiPokemons = async (req, res) => {
@@ -79,13 +80,41 @@ const getPokemons = async (req, res) => {
 };
 
 const getDbPokemons = async (req, res) => {
-
     try {
 
-        // search pokemons in DB
-        const pokemons = await Pokemon.findAll();
+        let pokemons = [];
+        let pokObj = []
 
-        return res.status(200).json(pokemons)
+        try {
+
+            // search pokemons in DB
+            pokemons = await Pokemon.findAll({
+                include: Tipo
+            });
+        }
+        catch (err) {
+            console.log("No se pudo guardar en la DB")
+        }
+
+        pokemons.forEach(pok => {
+            const types = pok.tipos.map(e => {
+                return e.name;
+            })
+            const attack = pok.attack
+            const name = pok.name;
+            const id = pok.id
+
+            let obj = {
+                id,
+                name,
+                types,
+                attack
+            }
+
+            pokObj.push(obj)
+        })
+
+        return res.status(200).json(pokObj)
 
     } catch (err) {
         res.status(400).json({
@@ -109,15 +138,34 @@ const getPokemonsByName = async (req, res) => {
         // variables to validate
         let apiPok = "";
         let dbPok = "";
-        let pokObj = [];
+        let apiObj = [];
+        let dbObj = [];
 
         // search in DB
         try {
             dbPok = await Pokemon.findOne({
+                include: Tipo,
                 where: {
                     name: pokemonName
                 }
             })
+
+            const name = dbPok.name
+            const types = dbPok.tipos.map(pok => {
+                return pok.name
+            })
+            const attack = dbPok.attack
+            const id = dbPok.id
+
+            dbObj = {
+                id,
+                name,
+                attack,
+                types
+            }
+
+            console.log("OBJETO DB", dbObj)
+
         } catch (err) {
             console.log("Pokemon does not exist in DB")
         }
@@ -133,7 +181,7 @@ const getPokemonsByName = async (req, res) => {
             const attack = apiPok.data.stats[1].base_stat;
             const id = apiPok.data.id
 
-            pokObj = {
+            apiObj = {
                 id,
                 name,
                 image,
@@ -146,11 +194,11 @@ const getPokemonsByName = async (req, res) => {
         }
 
         if (apiPok != "") {
-            return res.status(200).json(pokObj);
+            return res.status(200).json(apiObj);
         }
 
         if (dbPok != "") {
-            return res.status(200).json(dbPok)
+            return res.status(200).json(dbObj)
         }
 
         return res.status(400).json({
@@ -173,7 +221,8 @@ const getPokemonById = async (req, res) => {
         // variables to validate
         let apiPok = "";
         let dbPok = "";
-        let pokObj = [];
+        let apiObj = [];
+        let dbObj = [];
 
         /*         // var to check if id model looks like xxxx-xxxx-xxx
                 const idVer = id.includes('-'); */
@@ -183,12 +232,38 @@ const getPokemonById = async (req, res) => {
         try {
 
             dbPok = await Pokemon.findOne({
+                include: Tipo,
                 where: {
                     id
                 }
             });
 
-            return res.status(200).json(dbPok.dataValues);
+            const pokId = dbPok.id
+            const name = dbPok.name
+            const types = dbPok.tipos.map(pok => {
+                return pok.name
+            })
+            const weight = dbPok.weight
+            const height = dbPok.height
+            const life = dbPok.life
+            const attack = dbPok.attack
+            const defense = dbPok.defense
+            const speed = dbPok.speed
+    
+    
+            dbObj = {
+                id: pokId,
+                name,
+                life,
+                attack,
+                defense,
+                speed,
+                weight,
+                height,
+                types
+            }
+
+            return res.status(200).json(dbObj);
 
         } catch (err) {
             console.log("Pokemon does not exist in DB")
@@ -219,7 +294,7 @@ const getPokemonById = async (req, res) => {
         const speed = apiPok.data.stats[5].base_stat
 
 
-        pokObj = {
+        apiObj = {
             id: pokId,
             name,
             image,
@@ -233,9 +308,9 @@ const getPokemonById = async (req, res) => {
         }
 
         if (apiPok != "") {
-            return res.status(200).json(pokObj);
+            return res.status(200).json(apiObj);
         }
-
+        
         return res.status(400).json({
             message: "Not exist pokemons with that id"
         })
@@ -249,13 +324,23 @@ const getPokemonById = async (req, res) => {
 
 const createPokemon = async (req, res) => {
 
-
     try {
 
-        const pokemon = req.body;
+
+        const { name, life, attack, defense, speed, height, weight, types } = req.body;
 
         // create a new instance of Pokemon
-        const newPokemon = await Pokemon.create(pokemon);
+        const newPokemon = await Pokemon.create({
+            name,
+            life,
+            attack,
+            defense,
+            speed,
+            height,
+            weight
+        });
+
+        await newPokemon.addTipos(types)
 
         return res.status(200).json(newPokemon)
 

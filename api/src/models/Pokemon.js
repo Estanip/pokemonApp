@@ -9,6 +9,7 @@ module.exports = (sequelize) => {
       type: DataTypes.UUID,
       defaultValue: Sequelize.literal('gen_random_uuid()'),
       primaryKey: true,
+      allowNull: false
     },
     name: {
       type: DataTypes.STRING,
@@ -31,9 +32,6 @@ module.exports = (sequelize) => {
     },
     weight: {
       type: DataTypes.INTEGER
-    },
-    types: {
-      type: DataTypes.ARRAY(DataTypes.STRING)
     }
   }, {
     timestamps: false

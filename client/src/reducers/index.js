@@ -101,7 +101,7 @@ const rootReducer = (state = initialState, action) => {
             }
         case 'ORDER_BY_FORCE':
             let pokemonsByForce = [...state.pokemonsCopy]
-            sortOn(pokemonsByForce, "force");
+            sortOn(pokemonsByForce, "attack");
             if (action.payload === "ascendent") {
                 return {
                     ...state,

@@ -7,6 +7,7 @@ import Pagination from '../../components/Pagination/Pagination';
 import DbPokemons from '../../components/DbPokemons/DbPokemons';
 import Loading from '../../components/Loading/Loading';
 import './Home.css';
+import CreateForm from '../../components/CreateForm/CreateForm';
 
 function Home({ getPokemons, pokemons }) {
 
@@ -31,6 +32,8 @@ function Home({ getPokemons, pokemons }) {
                 <SearchBy />
                 <OrderBy />
             </div>
+
+            <CreateForm />
 
             {loading === true || pokemons[0] === null || pokemons.length === 0
 
