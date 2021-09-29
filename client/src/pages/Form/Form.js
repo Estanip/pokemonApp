@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Multi from 'react-select';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { createPokemon, getPokemons, getTypes } from '../../actions';
 import routes from '../../helpers/routes';
 import './Form.css'
@@ -56,18 +56,17 @@ function Form({ createPokemon, getTypes, types, getPokemons, pokemons }) {
         if (pokemon.types.length > 2) {
             setMessage("No se puede seleccionar mas de dos tipos");
             return;
-        }
-
-        if (result.length > 0) {
-            setMessage("Nombre existente, intente con otro");
+        } if (result.length > 0) {
+            setMessage("Ya existe un pokemon con ese nombre")
         } else {
             createPokemon(pokemon)
             history.push(routes.home)
+
         }
 
         setTimeout(() => {
             setMessage("")
-        }, 3000);
+        }, 2000);
     };
 
     useEffect(() => {
@@ -76,37 +75,47 @@ function Form({ createPokemon, getTypes, types, getPokemons, pokemons }) {
     }, []);
 
     return (
-        <div className='formContainer'>
+        <div className='form-container'>
+            <div className='title__container'>
+                <h1>Crea tu Pokemon!</h1>
+            </div>
 
-            <h2>Diseña tu Pokemon!</h2>
+            <form onSubmit={(e) => handleSubmit(e)}>
 
-            <form className='form' onSubmit={(e) => handleSubmit(e)}>
+                <input type="text" name='name' onChange={(e) => handleOnChange(e)} placeholder='Insert name' required />
 
-                <input type="text" name="name" onChange={(e) => handleOnChange(e)} placeholder='Pokemon Name' minlength="3" maxlength="10" required />
+                <input type="number" name="life" onChange={(e) => handleOnChange(e)} placeholder='Insert life' min="1" max="100" required />
 
-                <input type="number" name="life" onChange={(e) => handleOnChange(e)} placeholder='Life' min="1" max="100" required />
+                <input type="number" name="attack" onChange={(e) => handleOnChange(e)} placeholder='Insert attack' min="1" max="100" required />
 
-                <input type="number" name="attack" onChange={(e) => handleOnChange(e)} placeholder='Attack' min="1" max="100" required />
 
-                <input type="number" name="defense" onChange={(e) => handleOnChange(e)} placeholder='Defense' min="1" max="100" required />
+                <input type="number" name="defense" onChange={(e) => handleOnChange(e)} placeholder='Insert defense' min="1" max="100" required />
 
-                <input type="number" name="speed" onChange={(e) => handleOnChange(e)} placeholder='Speed' min="1" max="100" required />
 
-                <input type="number" name="height" onChange={(e) => handleOnChange(e)} placeholder='Height' min="1" max="100" required />
+                <input type="number" name="speed" onChange={(e) => handleOnChange(e)} placeholder='Insert speed' min="1" max="100" required />
 
-                <input type="number" name="weight" onChange={(e) => handleOnChange(e)} placeholder='Weight' min="1" max="100" required />
 
-                {message}
+                <input type="number" name="height" onChange={(e) => handleOnChange(e)} placeholder='Insert height' min="1" max="100" required />
 
-                <label>
-                    <span>Tipos</span>
-                    <Multi isMulti name='tipos' closeMenuOnSelect={false} options={typesOption} onChange={(e) => handleChangeCheck(e)} />
-                </label>
+                <input type="number" name="weight" onChange={(e) => handleOnChange(e)} placeholder='Insert Weight' min="1" max="100" required />
 
-                <button type="submit">Guardar Pokemon</button>
+                <div className='select__container'>
+                    <Multi
+                        className='select_types'
+                        isMulti name='tipos'
+                        closeMenuOnSelect={false}
+                        options={typesOption}
+                        onChange={(e) => handleChangeCheck(e)}
+                        required
+                    /> <span>{message}</span>
+                </div>
 
+                <button className='form__btn' type="submit">Create</button>
+                <Link to to={routes.home}>
+                    <button className="form__btn">Regresar</button>
+                </Link>
             </form>
-        </div>
+        </div >
     )
 }
 

@@ -45,7 +45,7 @@ const rootReducer = (state = initialState, action) => {
             if (result.length === 0) {
                 return {
                     ...state,
-                    pokemons: []
+                    pokemons: pokemonsName
                 }
             }
             else {

@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { orderByForce, orderByName } from '../../actions';
+import './OrderBy.css';
 
-function OrderBy({orderByForce, orderByName}) {
+function OrderBy({ orderByForce, orderByName }) {
 
     const [orderName, setOrderName] = useState("ascendent");
     const [orderForce, setOrderForce] = useState("ascendent");
@@ -22,7 +23,7 @@ function OrderBy({orderByForce, orderByName}) {
     }
 
     const getByForce = async (e) => {
-        
+
         e.preventDefault();
 
         await orderByForce(orderForce);
@@ -38,7 +39,7 @@ function OrderBy({orderByForce, orderByName}) {
     }
 
     return (
-        <div>
+        <div className='orderby-container'>
             <button onClick={(e) => getByName(e)}>Order By Name</button>
             <button onClick={(e) => getByForce(e)}>Order By Force</button>
         </div>

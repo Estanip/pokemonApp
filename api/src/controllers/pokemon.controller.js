@@ -54,7 +54,7 @@ const getPokemons = async (req, res) => {
             const types = pok.data.types.map(e => {
                 return e.type.name;
             })
-            const force = pok.data.stats[1].base_stat;
+            const attack = pok.data.stats[1].base_stat;
             const name = pok.data.name;
             const id = pok.data.id
 
@@ -63,7 +63,7 @@ const getPokemons = async (req, res) => {
                 name,
                 image,
                 types,
-                force
+                attack
             }
 
             pokObj.push(obj)
@@ -125,20 +125,19 @@ const getPokemonsByName = async (req, res) => {
         // search in API
         try {
             apiPok = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
-            console.log(apiPok)
             const name = apiPok.data.name
             const image = apiPok.data.sprites.front_default
             const types = apiPok.data.types.map(pok => {
                 return pok.type.name
             })
-            const force = apiPok.data.stats[1].base_stat;
+            const attack = apiPok.data.stats[1].base_stat;
             const id = apiPok.data.id
 
             pokObj = {
                 id,
                 name,
                 image,
-                force,
+                attack,
                 types
             }
         }

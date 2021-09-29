@@ -1,0 +1,38 @@
+@import url(https://fonts.googleapis.com/css?family=Sigmar+One);
+
+body {
+    background-color: #e1b12c;
+}
+
+.page-btn {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}
+
+.page-btn button {
+    font-family: 'Amarante', Tahoma, sans-serif;
+    color: #292C33;
+    background: #fbc531;
+    padding: 8px 15px 8px 15px;
+    margin: 5px;
+    width: 200px;
+    border: none;
+    color: #fff;
+}
+
+.page-btn button:hover {
+    background: white;
+    color: #292C33;
+}
+
+
+.btn__container {
+    display: flex;
+    justify-content: center;
+}
+
+.message__container {
+    margin-top: 20px;
+    padding-top: 40px;
+}

@@ -1,0 +1,19 @@
+.orderby-container {
+    display: inline-table;
+
+}
+
+.orderby-container button {
+    width: 50%;
+    font-family: 'Amarante', Tahoma, sans-serif;
+    color: white;
+    background: #292C33;
+    padding: 8px 15px 8px 15px;
+    margin: 5px;
+    border: none;
+}
+
+.orderby-container button:hover {
+    color: #292C33;
+    background: white;
+}

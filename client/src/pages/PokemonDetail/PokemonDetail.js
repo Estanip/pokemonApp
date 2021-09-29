@@ -1,13 +1,17 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
 import { getPokemonById } from '../../actions';
 import routes from '../../helpers/routes';
+import typeColors from '../../helpers/typeColors';
+import './PokemonDetail.css';
 
 
 function PokemonDetail({ pokemon, getPokemonById }) {
 
-    const {id} = useParams();
+    const { id } = useParams();
+
+    console.log(pokemon)
 
     useEffect(() => {
 
@@ -20,38 +24,61 @@ function PokemonDetail({ pokemon, getPokemonById }) {
     }, []);
 
     return (
-        <div>
-            DETALLE DE POKEMON
-            {pokemon.length !== 0 &&
+        <div className="card-detailContainer">
+            {pokemon.length === 0
+
+                ?
 
                 <div>
-                    <h1>{pokemon.name}</h1>
-
-                        <div>
-                            <ul>
-                                {pokemon.types.map(e => (
-                                    <li>{e}</li>
-                                )
-                                )}
-                            </ul>
-                        </div>
-    
-                    <img src={pokemon.image}></img>
-                    <h2>{pokemon.id}</h2>
-                    <ul>
-                        <li>Life: {pokemon.life}</li>
-                        <li>Attack: {pokemon.attack}</li>
-                        <li>Defense: {pokemon.defense}</li>
-                        <li>Speed: {pokemon.speed}</li>
-                    </ul>
-                    <ul>
-                        <li>Height: {pokemon.height}</li>
-                        <li>Weight: {pokemon.weight}</li>
-                    </ul>
+                    <h1>Cargando</h1>
                 </div>
-            }
 
-        <Link to={routes.home}>Volver</Link>
+                :
+
+
+
+                <div className='card-details'>
+
+                    <div className='Name__card'>
+
+                        <p>{pokemon.name}</p>
+
+                        <h2>{pokemon.id}</h2>
+
+                    </div>
+                    <div className='Img__card'>
+                        <img src={pokemon.image} alt={pokemon.name} />
+
+                    </div>
+
+                    <div className='Types__card'>
+                        {pokemon.types.map(e => (<div style={{ backgroundColor: typeColors[e] }} className='Type__card'>{e}</div>))}
+                    </div>
+
+                    <div className='Force__card'>
+                        <p className='title'>Life</p>
+                        <p>{pokemon.life}</p>
+                        <p className='title'>Attack</p>
+                        <p>{pokemon.attack}</p>
+
+                        <p className='title'>Defense</p>
+                        <p>{pokemon.defense}</p>
+                        <p className='title'>Speed</p>
+                        <p>{pokemon.speed}</p>
+                        <p className='title'>Height</p>
+                        <p>{pokemon.height}</p>
+                        <p className='title'>Weight</p>
+                        <p>{pokemon.weight}</p>
+
+                    </div>
+
+
+
+                    <Link to={routes.home}><button className='btn__detail'>Regresar</button></Link>
+
+                </div>
+
+            }
 
         </div>
     )

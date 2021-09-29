@@ -1,27 +1,30 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux';
 import { getDbPokemons } from '../../actions';
+import './DbPokemons.css';
 
-function DbPokemons({getDbPokemons}) {
+function DbPokemons({ getDbPokemons }) {
 
     const [message, setMessage] = useState("");
 
     const getPok = async (e) => {
         e.preventDefault()
         const result = await getDbPokemons();
-        if(result.data.length === 0) {
-            setMessage("No se encontraron Pokemons en la DB")
+        if (result.data.length === 0) {
+            setMessage("DB Vacia")
         }
 
         setTimeout(() => {
-           setMessage("") 
+            setMessage("")
         }, 3000);
     }
 
     return (
-        <div>
-            <button onClick={(e) => getPok(e)}>DB Pokemons</button> {message}
+        <div className='btn-dbcontainer'>
+            <button onClick={(e) => getPok(e)}>DB Pokemons</button>
+            <span>{message}</span>
         </div>
+
     )
 }
 

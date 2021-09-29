@@ -5,6 +5,8 @@ import SearchBy from '../../components/SearchBy/SearchBy';
 import OrderBy from '../../components/OrderBy/OrderBy';
 import Pagination from '../../components/Pagination/Pagination';
 import DbPokemons from '../../components/DbPokemons/DbPokemons';
+import Loading from '../../components/Loading/Loading';
+import './Home.css';
 
 function Home({ getPokemons, pokemons }) {
 
@@ -22,18 +24,19 @@ function Home({ getPokemons, pokemons }) {
     }, []);
 
     return (
-        <div>
-            <h1>Home</h1>
+        <div className='home-container'>
 
-            <DbPokemons />
-            <SearchBy />
-            <OrderBy />
+            <div className='options__container'>
+                <DbPokemons />
+                <SearchBy />
+                <OrderBy />
+            </div>
 
             {loading === true || pokemons[0] === null || pokemons.length === 0
 
                 ?
 
-                <div><h1>{loading === true ? "Cargando" : "No se encontraron resultados"}</h1></div>
+                <Loading />
 
                 :
 

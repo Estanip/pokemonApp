@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Cards from '../../components/Cards/Cards';
 import Card from '../../components/Card/Card';
+import './Pagination.css';
 
 function Pagination({ pokemons }) {
 
@@ -13,7 +14,7 @@ function Pagination({ pokemons }) {
     useEffect(() => {
 
         if (typeof pokemons === "number") {
-            setMessage("Cargando Pokemones")
+            setMessage("Cargando...")
         } else {
 
             if (pokemons.length < 9) {
@@ -45,31 +46,41 @@ function Pagination({ pokemons }) {
     }, [page, pokemons])
 
     return (
-        <div>
-            <div>
+        <div className='pagination-container'>
+            <div className='btn__container'>
                 {page === 1
                     ?
-                    <button onClick={() => setPage(page - 1)} disabled >Previous</button>
+                    <div className='page-btn'>
+                        <button onClick={() => setPage(page - 1)} disabled >PREVIOUS</button>
+                    </div>
                     :
-                    <button onClick={() => setPage(page - 1)}>Previous</button>
+                    <div className='page-btn'>
+                        <button onClick={() => setPage(page - 1)}>PREVIOUS</button>
+                    </div>
                 }
                 {page === 4
                     ?
-                    <button onClick={() => setPage(page + 1)} disabled>Next</button>
+                    <div className='page-btn'>
+                        <button onClick={() => setPage(page + 1)} disabled>NEXT</button>
+                    </div>
                     :
-                    <button onClick={() => setPage(page + 1)} >Next</button>
-
+                    <div className='page-btn'>
+                        <button onClick={() => setPage(page + 1)} >NEXT</button>
+                    </div>
                 }
             </div>
-            {message !== ""
-                ?
-                <div>{message}</div>
-                :
-                <Cards>
-                    {data.map((e, i) => <Card key={i} id={e.id} name={e.name} image={e.image} types={e.types} force={e.force} />)}
-                </Cards>
-            }
-
+            <div className='pagination__content'>
+                {typeof data === "number" || message !== ""
+                    ?
+                    <div className='message__container'>
+                        <h2>{message}</h2>
+                    </div>
+                    :
+                    <Cards>
+                        {data.map((e, i) => <Card key={i} id={e.id} name={e.name} image={e.image} types={e.types} force={e.attack} />)}
+                    </Cards>
+                }
+            </div>
         </div>
     )
 }

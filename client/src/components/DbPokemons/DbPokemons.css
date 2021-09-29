@@ -1,0 +1,13 @@
+.btn-dbcontainer button {
+    width: 50%;
+    font-family: 'Amarante', Tahoma, sans-serif;
+    color: white;
+    background: #292C33;
+    padding: 8px 15px 8px 15px;
+    border: none;
+}
+
+.btn-dbcontainer button:hover {
+    color: #292C33;
+    background: white;
+}

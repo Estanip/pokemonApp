@@ -1,0 +1,31 @@
+.landing-container {
+  background-image: url('../../assets/images/app_back.jpg');
+  background-repeat: no-repeat;
+  min-height: 100%;
+  position: fixed;
+  background-size: cover;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+}
+
+.text__container {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  margin-top: 260px;
+}
+
+.text__container span {
+  color: white;
+  font-size: 25px;
+}
+
+.text__container span:hover {
+  color: #1A1C20;
+  font-size: 25px;
+  background-color: white;
+  padding: 8px;
+  border-radius: 10%;
+}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux';
 import { getPokemonByName, getPokemonsByType, getTypes } from '../../actions';
+import './SearchBy.css';
 
 
 function SearchBy({ getPokemonsByType, getPokemonByName, types, getTypes, pokemons }) {
@@ -68,22 +69,34 @@ function SearchBy({ getPokemonsByType, getPokemonByName, types, getTypes, pokemo
     }, [])
 
     return (
-        <div>
+        <div className='search-container' >
             <form onSubmit={(e) => handleOnClick(e)}>
-                <select name="searchBy" onChange={(e) => setSearchBy(e.target.value)}>
-                    <option value="byName">By Name</option>
-                    <option value="byType">By Type</option>
-                </select>
 
-                { }
-                <input onChange={(e) => setInput(e.target.value)}
-                    placeholder={searchBy === "byType" ? "Ingresa Tipo" : "Ingresa Nombre"}
-                /> {message}
-                <button type='submit' >
-                    {searchBy === "byType" ? "Busca por Tipo" : "Busca Por Nombre"}
-                </button>
+                <div className='select__container'>
+                    <span>{message}</span>
+
+                    <select className='search__select' name="searchBy" onChange={(e) => setSearchBy(e.target.value)}>
+                        <option value="byName">By Name</option>
+                        <option value="byType">By Type</option>
+                    </select>
+                </div>
+                <div className='input__container'>
+                    <input
+                        className='text__input'
+                        onChange={(e) => setInput(e.target.value)}
+                        placeholder={searchBy === "byType" ? "Ingresa Tipo" : "Ingresa Nombre"}
+                    />
+                </div>
+                <div className='btn__container'>
+                    <button type='submit'>
+                        {searchBy === "byType" ? "Busca por Tipo" : "Busca Por Nombre"}
+                    </button>
+
+                </div>
             </form>
+
         </div>
+
     )
 }
 

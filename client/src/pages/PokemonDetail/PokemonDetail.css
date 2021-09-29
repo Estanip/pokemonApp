@@ -1,0 +1,72 @@
+.card-detailContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.card-details {
+    background: #fbc531;
+    width: 400px;
+
+}
+
+.Img__card {
+    text-align: center;
+}
+
+.Types__card {
+    display: flex;
+    justify-content: center;
+}
+
+.Type__card {
+    padding: 5px 10px 10px;
+    margin: 10px 10px 15px 20px;
+    color: #fff;
+}
+
+.Name__card {
+    text-align: center;
+    text-transform: capitalize;
+    font-weight: 800;
+}
+
+.Name__card p {
+    color: white;
+    text-decoration: underline;
+    margin-bottom: 10px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+
+.Force__card {
+    padding-bottom: 10px;
+}
+
+.Force__card .title {
+    margin-bottom: 5px;
+    font-weight: 700;
+    color: white;
+}
+
+
+.Force__card p {
+    margin-bottom: 10px;
+    color: white;
+}
+
+.btn__detail {
+    width: 50%;
+    font-family: 'Amarante', Tahoma, sans-serif;
+    color: white;
+    background: #292C33;
+    padding: 8px 15px 8px 15px;
+    border: none;
+    margin-bottom: 10px;
+}
+
+.btn__detail:hover {
+    color: #292C33;
+    background: white;
+}

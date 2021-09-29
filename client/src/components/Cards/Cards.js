@@ -3,7 +3,7 @@ import './Cards.css';
 
 export default function Cards({ children }) {
     return (
-        <div className='cardsContainer'>
+        <div className='cards-container'>
             {children}
         </div>
     )

@@ -1,0 +1,15 @@
+.Navbar {
+    background-color: #f1c40f;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 20px;
+    height: 100px;
+}
+
+.Navbar h4 {
+    color: white;
+    font-family: 'Pokemon Solid', sans-serif;
+    font-size: 30px
+}
