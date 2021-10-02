@@ -1,20 +1,38 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+
 import Cards from '../../components/Cards/Cards';
 import Card from '../../components/Card/Card';
+import Loading from '../Loading/Loading';
+
+import { toast } from 'react-toastify';
+
 import './Pagination.css';
 
 function Pagination({ pokemons }) {
 
     const [page, setPage] = useState(1);
     const [data, setData] = useState(pokemons);
-    const [message, setMessage] = useState("");
+
+    const divGif = {
+        width: "100%",
+        height: "0",
+        paddingBottom: "80%",
+        position: "relative"
+    }
+
+    const gifStyle = {
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+        frameBorder: "0"
+    }
 
     useEffect(() => {
 
         if (typeof pokemons === "number") {
-            setMessage("Cargando...")
+            toast.info("Cargando Pokemons")
         } else {
 
             if (pokemons.length < 9) {
@@ -38,43 +56,39 @@ function Pagination({ pokemons }) {
             }
         }
 
-        setTimeout(() => {
-            setMessage("")
-        }, 4000);
-
-
     }, [page, pokemons])
 
     return (
         <div className='pagination-container'>
             <div className='btn__container'>
-                {page === 1
-                    ?
-                    <div className='page-btn'>
-                        <button onClick={() => setPage(page - 1)} disabled >PREVIOUS</button>
-                    </div>
-                    :
-                    <div className='page-btn'>
+
+                <div className='page-btn'>
+                    {page === 1
+                        ?
+                        <button id="btnDisabled" onClick={() => setPage(page - 1)} disabled>PREVIOUS</button>
+                        :
                         <button onClick={() => setPage(page - 1)}>PREVIOUS</button>
-                    </div>
-                }
-                {page === 4
-                    ?
-                    <div className='page-btn'>
-                        <button onClick={() => setPage(page + 1)} disabled>NEXT</button>
-                    </div>
-                    :
-                    <div className='page-btn'>
-                        <button onClick={() => setPage(page + 1)} >NEXT</button>
-                    </div>
-                }
+                    }
+                </div>
+
+                <div className='page-btn'>
+                    {page === 4
+                        ?
+                        <button id="btnDisabled" onClick={() => setPage(page + 1)} disabled>NEXT</button>
+                        :
+                        <button onClick={() => setPage(page + 1)}>NEXT</button>
+                    }
+                </div>
             </div>
             <div className='pagination__content'>
-                {typeof data === "number" || message !== ""
+                {typeof data === "number"
                     ?
-                    <div className='message__container'>
-                        <h2>{message}</h2>
+
+                    <div style={divGif}>
+                        <iframe src="https://giphy.com/embed/pq2pU6B2Ht3pu" style={gifStyle} className="giphy-embed" allowFullScreen />
+                        <p><a href="https://giphy.com/gifs/pokemon-japan-pikachu-pq2pU6B2Ht3pu">via GIPHY</a></p>
                     </div>
+
                     :
                     <Cards>
                         {data.map((e, i) => <Card key={i} id={e.id} name={e.name} image={e.image} types={e.types} force={e.attack} />)}

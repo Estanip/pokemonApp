@@ -26,6 +26,11 @@ body {
     color: #292C33;
 }
 
+.page-btn #btnDisabled {
+    background: white;
+    color: #292C33;
+}
+
 
 .btn__container {
     display: flex;

@@ -24,6 +24,7 @@ export default function Card(props) {
             </div>
 
             <div className='Types__card'>
+                
                 {types.map(e => (<div style={{ backgroundColor: typeColors[e] }} className='Type__card'>{e}</div>))}
             </div>
 

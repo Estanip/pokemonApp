@@ -13,6 +13,22 @@ function Home({ getPokemons, pokemons }) {
 
     const [loading, setLoading] = useState(false);
 
+    
+    const divGif = {
+        width: "100%",
+        height: "0",
+        paddingBottom: "80%",
+        position: "relative"
+    }
+
+    const gifStyle = {
+        position: "absolute",
+        width: "50px",
+        height: "50px",
+        frameBorder: "0"
+    }
+
+
     useEffect(() => {
 
         const getData = async () => {
@@ -39,7 +55,10 @@ function Home({ getPokemons, pokemons }) {
 
                 ?
 
-                <Loading />
+                <div style={divGif}>
+                <iframe src="https://giphy.com/embed/pq2pU6B2Ht3pu" style={gifStyle} className="giphy-embed" allowFullScreen />
+                <p><a href="https://giphy.com/gifs/pokemon-japan-pikachu-pq2pU6B2Ht3pu"></a></p>
+            </div>
 
                 :
 

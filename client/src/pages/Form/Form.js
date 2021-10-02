@@ -5,6 +5,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { createPokemon, getPokemons, getTypes } from '../../actions';
 import routes from '../../helpers/routes';
 import './Form.css'
+import { toast } from 'react-toastify';
 
 
 function Form({ createPokemon, getTypes, types, getPokemons, pokemons }) {
@@ -21,7 +22,6 @@ function Form({ createPokemon, getTypes, types, getPokemons, pokemons }) {
     });
 
     const [pokemon, setPokemon] = useState(initialState);
-    const [message, setMessage] = useState("");
 
     let history = useHistory();
     let typesOption = [];
@@ -50,23 +50,19 @@ function Form({ createPokemon, getTypes, types, getPokemons, pokemons }) {
         let result = pokemons.filter(e => e.name.includes(pokemon.name))
 
         if (pokemon.types.length === 0) {
-            setMessage("No se ha seleccionado ningun tipo");
+            toast.warn("No se ha seleccionado ningun tipo");
             return;
         }
         if (pokemon.types.length > 2) {
-            setMessage("No se puede seleccionar mas de dos tipos");
+            toast.warn("No se puede seleccionar mas de dos tipos");
             return;
         } if (result.length > 0) {
-            setMessage("Ya existe un pokemon con ese nombre")
+            toast.warn("Ya existe un pokemon con ese nombre")
         } else {
             createPokemon(pokemon)
             history.push(routes.home)
 
         }
-
-        setTimeout(() => {
-            setMessage("")
-        }, 2000);
     };
 
     useEffect(() => {
@@ -107,7 +103,7 @@ function Form({ createPokemon, getTypes, types, getPokemons, pokemons }) {
                         options={typesOption}
                         onChange={(e) => handleChangeCheck(e)}
                         required
-                    /> <span>{message}</span>
+                    />
                 </div>
 
                 <button className='form__btn' type="submit">Create</button>

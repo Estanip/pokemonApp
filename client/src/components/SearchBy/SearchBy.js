@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
 import { getPokemonByName, getPokemonsByType, getTypes } from '../../actions';
 import './SearchBy.css';
 
@@ -8,7 +9,6 @@ function SearchBy({ getPokemonsByType, getPokemonByName, types, getTypes, pokemo
 
     const [inputSearch, setInput] = useState("");
     const [searchBy, setSearchBy] = useState("byName");
-    const [message, setMessage] = useState("");
 
     const handleOnClick = (e) => {
 
@@ -21,7 +21,7 @@ function SearchBy({ getPokemonsByType, getPokemonByName, types, getTypes, pokemo
                 try {
 
                     if (inputSearch === "") {
-                        setMessage("No se ingreso un tipo correctamente")
+                        toast.warn("No se ingreso un tipo")
                     }
 
                     const result = types.filter(e => e.name.includes(inputSearch.toLocaleLowerCase()))
@@ -29,10 +29,10 @@ function SearchBy({ getPokemonsByType, getPokemonByName, types, getTypes, pokemo
                     if (result.length > 0) {
                         getPokemonsByType(inputSearch.toLowerCase())
                     } else {
-                        setMessage("Tipo inexistente")
+                        toast.warn("Tipo inexistente")
                     }
                 } catch (err) {
-                    setMessage("Error en la consulta")
+                    toast.warn("Error en la consulta")
                 }
             }
 
@@ -40,7 +40,7 @@ function SearchBy({ getPokemonsByType, getPokemonByName, types, getTypes, pokemo
             if (searchBy === "byName") {
                 try {
                     if (inputSearch === "") {
-                        setMessage("No se ingreso un nombre correctamente")
+                        toast.warn("No se ingreso un nombre")
                     } else {
                         getPokemonByName(inputSearch.toLowerCase())
                     }
@@ -51,10 +51,6 @@ function SearchBy({ getPokemonsByType, getPokemonByName, types, getTypes, pokemo
         }
 
         search();
-
-        setTimeout(() => {
-            setMessage("");
-        }, 3000);
 
     };
 
@@ -73,8 +69,6 @@ function SearchBy({ getPokemonsByType, getPokemonByName, types, getTypes, pokemo
             <form onSubmit={(e) => handleOnClick(e)}>
 
                 <div className='select__container'>
-                    <span>{message}</span>
-
                     <select className='search__select' name="searchBy" onChange={(e) => setSearchBy(e.target.value)}>
                         <option value="byName">By Name</option>
                         <option value="byType">By Type</option>

@@ -1,28 +1,22 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
 import { getDbPokemons } from '../../actions';
 import './DbPokemons.css';
 
 function DbPokemons({ getDbPokemons }) {
 
-    const [message, setMessage] = useState("");
-
     const getPok = async (e) => {
         e.preventDefault()
         const result = await getDbPokemons();
         if (result.data.length === 0) {
-            setMessage("DB Vacia")
-        }
-
-        setTimeout(() => {
-            setMessage("")
-        }, 3000);
+            toast.warn("No existen Pokemons en la DB")
+        };
     }
 
     return (
         <div className='btn-dbcontainer'>
             <button onClick={(e) => getPok(e)}>DB Pokemons</button>
-            <span>{message}</span>
         </div>
 
     )
