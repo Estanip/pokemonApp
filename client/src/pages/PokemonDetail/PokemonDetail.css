@@ -15,6 +15,14 @@
     text-align: center;
 }
 
+.Img__card img {
+    width: 100px;
+    height: 100px;
+    /*mantiene la calidad de la imagen*/
+    -o-object-fit: cover;
+       object-fit: cover;
+}
+
 .Types__card {
     display: flex;
     justify-content: center;

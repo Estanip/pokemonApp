@@ -23,6 +23,8 @@ function Form({ createPokemon, getTypes, types, getPokemons, pokemons }) {
 
     const [pokemon, setPokemon] = useState(initialState);
 
+    console.log("Pokemon", pokemon)
+
     let history = useHistory();
     let typesOption = [];
     types.map(e => typesOption.push({ value: e.id, label: e.name }))
@@ -42,6 +44,22 @@ function Form({ createPokemon, getTypes, types, getPokemons, pokemons }) {
             ...pokemon,
             types: type
         })
+    }
+
+    const handleInputImage = (e) => {
+
+        let file = e.target.files[0];
+        let reader = new FileReader();       
+
+        reader.onload = (event) => {
+            let img = event.target.result
+            setPokemon({
+                ...pokemon,
+                image: img
+              })
+        }
+
+        reader.readAsDataURL(file);
     }
 
     const handleSubmit = (e) => {
@@ -90,10 +108,11 @@ function Form({ createPokemon, getTypes, types, getPokemons, pokemons }) {
 
                 <input type="number" name="speed" onChange={(e) => handleOnChange(e)} placeholder='Insert speed' min="1" max="100" required />
 
-
                 <input type="number" name="height" onChange={(e) => handleOnChange(e)} placeholder='Insert height' min="1" max="100" required />
 
                 <input type="number" name="weight" onChange={(e) => handleOnChange(e)} placeholder='Insert Weight' min="1" max="100" required />
+
+                <input type="file" accept="image/jpg, image/png, image/jpeg" /* value={selectedFile} */ onChange={(e) => handleInputImage(e)} />
 
                 <div className='select__container'>
                     <Multi

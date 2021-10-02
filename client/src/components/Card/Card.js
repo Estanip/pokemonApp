@@ -7,13 +7,26 @@ export default function Card(props) {
 
     const { id, name, image, types, force = [] } = props;
 
+    const defaultImage = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/1.png";
+
     return (
 
 
         <div className='card-container'>
 
             <div className='Img__card'>
-                <img src={image ? image : "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/1.png"} alt={name} />
+                <img 
+                src={image ? image : defaultImage } 
+                onError={(e) => {
+                    if (e.target.src.includes('undefined')) {
+                      e.target.onerror = null;
+                      e.target.src = defaultImage
+                    } else if (e.target.src.includes('.jpeg')) {
+                      e.target.onerror = null;
+                      e.target.src = image.replace('jpeg', 'png')
+                    }
+                  }}
+                alt={name} />
 
             </div>
 

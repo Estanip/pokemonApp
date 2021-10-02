@@ -15,7 +15,7 @@ const axios = require('axios');
     }
 }; */
 
-const getPokemons = async (req, res) => {
+const getApiPokemons = async (req, res) => {
 
     try {
 
@@ -103,12 +103,14 @@ const getDbPokemons = async (req, res) => {
             const attack = pok.attack
             const name = pok.name;
             const id = pok.id
+            const image = pok.image
 
             let obj = {
                 id,
                 name,
                 types,
-                attack
+                attack,
+                image
             }
 
             pokObj.push(obj)
@@ -156,12 +158,14 @@ const getPokemonsByName = async (req, res) => {
             })
             const attack = dbPok.attack
             const id = dbPok.id
+            const image = dbPok.image
 
             dbObj = {
                 id,
                 name,
                 attack,
-                types
+                types,
+                image
             }
 
             console.log("OBJETO DB", dbObj)
@@ -249,6 +253,7 @@ const getPokemonById = async (req, res) => {
             const attack = dbPok.attack
             const defense = dbPok.defense
             const speed = dbPok.speed
+            const image = dbPok.image
     
     
             dbObj = {
@@ -260,7 +265,8 @@ const getPokemonById = async (req, res) => {
                 speed,
                 weight,
                 height,
-                types
+                types,
+                image
             }
 
             return res.status(200).json(dbObj);
@@ -327,7 +333,7 @@ const createPokemon = async (req, res) => {
     try {
 
 
-        const { name, life, attack, defense, speed, height, weight, types } = req.body;
+        const { name, life, attack, defense, speed, height, weight,image, types } = req.body;
 
         // create a new instance of Pokemon
         const newPokemon = await Pokemon.create({
@@ -337,7 +343,8 @@ const createPokemon = async (req, res) => {
             defense,
             speed,
             height,
-            weight
+            weight, 
+            image
         });
 
         await newPokemon.addTipos(types)
@@ -351,4 +358,4 @@ const createPokemon = async (req, res) => {
     }
 };
 
-module.exports = { getPokemonsByName, getPokemonById, createPokemon, getPokemons, getDbPokemons };
+module.exports = { getPokemonsByName, getPokemonById, createPokemon, getApiPokemons, getDbPokemons };

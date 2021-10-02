@@ -11,7 +11,7 @@ function PokemonDetail({ pokemon, getPokemonById }) {
 
     const { id } = useParams();
 
-    console.log(pokemon)
+    const defaultImage = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/1.png";
 
     useEffect(() => {
 
@@ -47,7 +47,20 @@ function PokemonDetail({ pokemon, getPokemonById }) {
 
                     </div>
                     <div className='Img__card'>
-                        <img src={pokemon.image ? pokemon.image : "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/1.png"} alt={pokemon.name} />
+                        <img 
+                        src={pokemon.image ? pokemon.image : defaultImage} 
+                        alt={pokemon.name} 
+                        src={pokemon.image ? pokemon.image : defaultImage } 
+                        onError={(e) => {
+                            if (e.target.src.includes('undefined')) {
+                              e.target.onerror = null;
+                              e.target.src = defaultImage
+                            } else if (e.target.src.includes('.jpeg')) {
+                              e.target.onerror = null;
+                              e.target.src = pokemon.image.replace('jpeg', 'png')
+                            }
+                          }}
+                        />
 
                     </div>
 
