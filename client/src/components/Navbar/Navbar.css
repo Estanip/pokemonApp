@@ -1,15 +1,19 @@
 .Navbar {
-    background-color: #f1c40f;
-    top: 0;
-    left: 0;
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    background-color: #C4D6D9;
     width: 100%;
-    text-align: center;
-    margin-bottom: 20px;
-    height: 100px;
 }
 
-.Navbar h4 {
-    color: white;
+.Navbar h2 {
+    color: #FBFBFC;
     font-family: 'Pokemon Solid', sans-serif;
-    font-size: 30px
+    font-size: 40px
+}
+
+.btn__create__container {
+    display: flex;
+    justify-content: right;
+    margin-top: 20px;
+    margin-right: 40px;
 }

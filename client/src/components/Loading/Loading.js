@@ -1,10 +1,13 @@
-import React from 'react'
-import { toast } from 'react-toastify'
+import React from 'react';
+import './Loading.css';
 
 export default function Loading() {
+
     return (
-        <div className='loading-container'>
-            <h2>{toast.info("Cargando Pokemons")}</h2>
+        <div id="loading-bar-spinner" className="spinner">
+            <div
+                className="spinner-icon">
+            </div>
         </div>
     )
 }

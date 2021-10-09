@@ -5,10 +5,8 @@ import './CreateForm.css';
 
 export default function CreateForm() {
     return (
-        <div>
-            <div className='btn-form'>
-            <Link to={routes.form}><button >Create Pokemon</button></Link> 
-        </div>
+        <div className='btn-form'>
+            <Link to={routes.form}><button className="create__btn" >Create Pokemon</button></Link>
         </div>
     )
 }

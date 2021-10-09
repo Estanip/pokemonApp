@@ -1,8 +1,6 @@
 .cards-container {
-    width: 70%;
+    width: 80%;
     display: grid;
     margin: 0 auto;
-    padding-bottom: 40px;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    grid-gap: 10px;
+    grid-template-columns: 33% 33% 33%;
 }

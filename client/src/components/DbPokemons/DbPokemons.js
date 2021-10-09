@@ -16,7 +16,7 @@ function DbPokemons({ getDbPokemons }) {
 
     return (
         <div className='btn-dbcontainer'>
-            <button onClick={(e) => getPok(e)}>DB Pokemons</button>
+            <button onClick={(e) => getPok(e)}>My Pokemons</button>
         </div>
 
     )

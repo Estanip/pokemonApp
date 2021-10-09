@@ -5,29 +5,18 @@ import { connect } from 'react-redux';
 import Cards from '../../components/Cards/Cards';
 import Card from '../../components/Card/Card';
 import Loading from '../Loading/Loading';
+import OrderBy from '../OrderBy/OrderBy';
+import DbPokemons from '../DbPokemons/DbPokemons';
 
 import { toast } from 'react-toastify';
 
 import './Pagination.css';
 
+
 function Pagination({ pokemons }) {
 
     const [page, setPage] = useState(1);
     const [data, setData] = useState(pokemons);
-
-    const divGif = {
-        width: "100%",
-        height: "0",
-        paddingBottom: "80%",
-        position: "relative"
-    }
-
-    const gifStyle = {
-        position: "absolute",
-        width: "100%",
-        height: "100%",
-        frameBorder: "0"
-    }
 
     useEffect(() => {
 
@@ -60,18 +49,16 @@ function Pagination({ pokemons }) {
 
     return (
         <div className='pagination-container'>
-            <div className='btn__container'>
-
-                <div className='page-btn'>
+            <div className='btnPage__container'>
+            <OrderBy />
+                <div className='page__btn'>
                     {page === 1
                         ?
                         <button id="btnDisabled" onClick={() => setPage(page - 1)} disabled>PREVIOUS</button>
                         :
                         <button onClick={() => setPage(page - 1)}>PREVIOUS</button>
                     }
-                </div>
 
-                <div className='page-btn'>
                     {page === 4
                         ?
                         <button id="btnDisabled" onClick={() => setPage(page + 1)} disabled>NEXT</button>
@@ -79,15 +66,16 @@ function Pagination({ pokemons }) {
                         <button onClick={() => setPage(page + 1)}>NEXT</button>
                     }
                 </div>
+            
+                <DbPokemons />
+
+
             </div>
             <div className='pagination__content'>
                 {typeof data === "number"
                     ?
 
-                    <div style={divGif}>
-                        <iframe src="https://giphy.com/embed/pq2pU6B2Ht3pu" style={gifStyle} className="giphy-embed" allowFullScreen />
-                        <p><a href="https://giphy.com/gifs/pokemon-japan-pikachu-pq2pU6B2Ht3pu">via GIPHY</a></p>
-                    </div>
+                    <Loading />
 
                     :
                     <Cards>

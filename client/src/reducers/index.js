@@ -34,7 +34,7 @@ const rootReducer = (state = initialState, action) => {
 
         case 'GET_POKEMON_BY_NAME':
             let pokemonsName = [...state.pokemonsCopy]
-            let result = pokemonsName.filter(e => e.name.includes(action.payload))
+            let resultName = pokemonsName.filter(e => e.name.includes(action.payload))
             if (action.payload === "") {
                 return {
                     ...state,
@@ -42,7 +42,7 @@ const rootReducer = (state = initialState, action) => {
                 }
 
             }
-            if (result.length === 0) {
+            if (resultName.length === 0) {
                 return {
                     ...state,
                     pokemons: pokemonsName
@@ -51,7 +51,7 @@ const rootReducer = (state = initialState, action) => {
             else {
                 return {
                     ...state,
-                    pokemons: result
+                    pokemons: resultName
                 }
             }
         case 'GET_POKEMON_BY_ID':
@@ -61,15 +61,24 @@ const rootReducer = (state = initialState, action) => {
             }
         case 'GET_POKEMONS_BY_TYPE':
             let pokemonsTypes = [...state.pokemonsCopy]
+            let resultType = pokemonsTypes.filter(e => e.types.includes(action.payload))
             if (action.payload === "") {
                 return {
                     ...state,
                     pokemons: pokemonsTypes
                 }
-            } else {
+
+            }
+            if (resultType.length === 0) {
                 return {
                     ...state,
-                    pokemons: pokemonsTypes.filter(e => e.types.includes(action.payload))
+                    pokemons: pokemonsTypes
+                }
+            }
+            else {
+                return {
+                    ...state,
+                    pokemons: resultType
                 }
             }
         case 'ORDER_BY_NAME':

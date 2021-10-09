@@ -11,6 +11,19 @@ function PokemonDetail({ pokemon, getPokemonById }) {
 
     const { id } = useParams();
 
+    const backType = {
+        width: "160px",
+        borderRadius: "20px",
+        textAlign: "center",
+        marginTop: "5px",
+        marginBottom: "10px",
+        textTransform: "uppercase",
+        color: "#E8F3E2",
+        fontSize: "13px",
+        paddingTop: "4px",
+        height: "30px"
+    }
+
     const defaultImage = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/1.png";
 
     useEffect(() => {
@@ -29,70 +42,81 @@ function PokemonDetail({ pokemon, getPokemonById }) {
 
                 ?
 
-                <div>
-                    <h1>Cargando</h1>
+                <div id="loading-bar-spinner" className="spinner">
+                    <div
+                        className="spinner-icon">
+                    </div>
                 </div>
 
                 :
 
+                <div className={`${pokemon.types[0]}-containerDetail`}>
 
-
-                <div className='card-details'>
-
-                    <div className='Name__card'>
-
-                        <p>{pokemon.name}</p>
-
-                        <h2>{pokemon.id}</h2>
-
+                    <div className='Name__cardDetail'>
+                        <h2>{pokemon.name}</h2>
                     </div>
-                    <div className='Img__card'>
-                        <img 
-                        src={pokemon.image ? pokemon.image : defaultImage} 
-                        alt={pokemon.name} 
-                        src={pokemon.image ? pokemon.image : defaultImage } 
-                        onError={(e) => {
-                            if (e.target.src.includes('undefined')) {
-                              e.target.onerror = null;
-                              e.target.src = defaultImage
-                            } else if (e.target.src.includes('.jpeg')) {
-                              e.target.onerror = null;
-                              e.target.src = pokemon.image.replace('jpeg', 'png')
-                            }
-                          }}
-                        />
+
+                    <div className='Img__cardDetail'>
+                        <img
+                            src={pokemon.image ? pokemon.image : defaultImage}
+                            onError={(e) => {
+                                if (e.target.src.includes('undefined')) {
+                                    e.target.onerror = null;
+                                    e.target.src = defaultImage
+                                } else if (e.target.src.includes('.jpeg')) {
+                                    e.target.onerror = null;
+                                    e.target.src = pokemon.image.replace('jpeg', 'png')
+                                }
+                            }}
+                            alt={pokemon.name} />
 
                     </div>
 
-                    <div className='Types__card'>
-                        {pokemon.types.map(e => (<div style={{ backgroundColor: typeColors[e] }} className='Type__card'>{e}</div>))}
-                    </div>
-
-                    <div className='Force__card'>
-                        <p className='title'>Life</p>
-                        <p>{pokemon.life}</p>
-                        <p className='title'>Attack</p>
-                        <p>{pokemon.attack}</p>
-
-                        <p className='title'>Defense</p>
-                        <p>{pokemon.defense}</p>
-                        <p className='title'>Speed</p>
-                        <p>{pokemon.speed}</p>
-                        <p className='title'>Height</p>
-                        <p>{pokemon.height}</p>
-                        <p className='title'>Weight</p>
-                        <p>{pokemon.weight}</p>
-
+                    <div className='Types__cardDetail'>
+                        {pokemon.types.map(e => (<div style={{ ...backType, backgroundColor: typeColors[e] }} >
+                            {e}
+                        </div>))}
                     </div>
 
 
+                    <div className='Stats-containerDetail'>
 
-                    <Link to={routes.home}><button className='btn__detail'>Regresar</button></Link>
+                        <div className='stat__div'>
+                            <p className='stat__title'>Life</p>
+                            <p className='stat'>{pokemon.life}</p>
+                        </div>
 
+                        <div>
+                            <p className='stat__title'>Attack</p>
+                            <p className='stat'>{pokemon.attack}</p>
+                        </div>
+
+                        <div>
+                            <p className='stat__title'>Defense</p>
+                            <p className='stat'>{pokemon.defense}</p>
+                        </div>
+
+                        <div>
+                            <p className='stat__title'>Speed</p>
+                            <p className='stat'>{pokemon.speed}</p>
+                        </div>
+
+                        <div>
+                            <p className='stat__title'>Height</p>
+                            <p className='stat'>{pokemon.height}</p>
+                        </div>
+
+                        <div>
+                            <p className='stat__title'>Weight</p>
+                            <p className='stat'>{pokemon.weight}</p>
+                        </div>
+                    </div>
+
+                    <div className="btn-containerDetail">
+                        <Link to={routes.home}><button>Regresar</button></Link>
+                    </div>
                 </div>
-
             }
-
         </div>
     )
 }
