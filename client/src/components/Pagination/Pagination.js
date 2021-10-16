@@ -7,6 +7,7 @@ import Card from '../../components/Card/Card';
 import Loading from '../Loading/Loading';
 import OrderBy from '../OrderBy/OrderBy';
 import DbPokemons from '../DbPokemons/DbPokemons';
+import AllPokemons from '../AllPokemons/AllPokemons';
 
 import { toast } from 'react-toastify';
 
@@ -50,7 +51,7 @@ function Pagination({ pokemons }) {
     return (
         <div className='pagination-container'>
             <div className='btnPage__container'>
-            <OrderBy />
+                <OrderBy />
                 <div className='page__btn'>
                     {page === 1
                         ?
@@ -66,8 +67,11 @@ function Pagination({ pokemons }) {
                         <button onClick={() => setPage(page + 1)}>NEXT</button>
                     }
                 </div>
-            
-                <DbPokemons />
+
+                <div className="btns-container">
+                    <DbPokemons />
+                    <AllPokemons />
+                </div>
 
 
             </div>

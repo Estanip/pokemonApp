@@ -19,7 +19,7 @@ function SearchBy({ getPokemonByName, pokemons }) {
                 toast.warn("No se ingreso un nombre")
             }
 
-            let resultName = pokemons.filter(e => e.name.includes(inputSearch))
+            let resultName = pokemons.filter(e => e.name.includes(inputSearch.toLocaleLowerCase()))
 
             if (resultName.length === 0 && inputSearch !== "") {
                 toast.warn("No se encontraron pokemons con ese nombre")

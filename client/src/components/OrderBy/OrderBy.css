@@ -1,13 +1,12 @@
 .orderby-container {
-    display: inline-block;
+    display: flex;
     height: 100%;
-    background-color: #FBFBFC;
-    width: 120px;
+    width: 600px;
 }
 
 .orderby-container button {
     padding: 8px 15px 8px 15px;
-    margin: 5px;
+    margin: 10px;
     border: none;
     width: 100%;
     background-color: #CC0000; 

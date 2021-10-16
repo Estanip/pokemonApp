@@ -15,7 +15,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 190px;
+    margin-left: 150px;
+    padding-left: 60px;
     width: 70%;
     margin-bottom: 20px;
 }
@@ -50,4 +51,10 @@
 .message__container {
     margin-top: 20px;
     padding-top: 40px;
+}
+
+.btns-container {
+    display: flex;
+    margin-right: -120px;
+    margin-left: 110px;
 }
