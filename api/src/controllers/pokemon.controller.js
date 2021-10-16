@@ -2,18 +2,121 @@ const { Pokemon } = require('../db');
 const { Tipo } = require('../db')
 const axios = require('axios');
 
-/* const getApiPokemons = async (req, res) => {
-    // find all pokemons in API
+const getPokemons = async (req, res) => {
     try {
-        const p1 = await axios.get('https://pokeapi.co/api/v2/pokemon');
-        const p2 = await axios.get('https://pokeapi.co/api/v2/pokemon?offset=20&limit=20');
-        const promises = await Promise.all([p1, p2])
-        const result = [...promises[0].data.results, ...promises[1].data.results]
-        return res.status(200).json(result)
+        // array for all pokemons
+        let allPokemons = [];
+
+
+        // array for pokemon names
+        let pokNames = [];
+
+        // filtered object to return
+        let pokApiObj = [];
+        /*     pokObj = [{
+                name,
+                types,
+                image
+            }]
+         */
+        try {
+            // search in API to get the pokemons names        
+            const p1 = await axios.get('https://pokeapi.co/api/v2/pokemon');
+            const p2 = await axios.get('https://pokeapi.co/api/v2/pokemon?offset=20&limit=20');
+            const promises = await Promise.all([p1, p2])
+            const result = [...promises[0].data.results, ...promises[1].data.results]
+            result.forEach(pokemon => {
+                pokNames.push(pokemon.name)
+            })
+
+            // get object for each pokemon
+            const results = await Promise.all(
+                pokNames.map(async (name) => {
+                    return await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`)
+                })
+            );
+
+            // create an object for each pokemon with name, types and image
+            results.forEach(pok => {
+                const image = pok.data.sprites.front_default;
+                const types = pok.data.types.map(e => {
+                    return e.type.name;
+                })
+                const attack = pok.data.stats[1].base_stat;
+                const name = pok.data.name;
+                const id = pok.data.id
+
+                let obj = {
+                    id,
+                    name,
+                    image,
+                    types,
+                    attack
+                }
+
+                pokApiObj.push(obj)
+            });
+        } catch (err) {
+            res.status(400).json({
+                message: "Error API query",
+                message: err
+            })
+        };
+
+
+        // array for all pokemons DB
+        let pokemons = [];
+
+        // filetered object to return
+        let pokDbObj = []
+        /*     pokDbOBj = [{
+        name,
+        types,
+        image
+    }]
+    */
+        try {
+            // search pokemons in DB
+            pokemons = await Pokemon.findAll({
+                include: Tipo
+            });
+
+            pokemons.forEach(pok => {
+                const types = pok.tipos.map(e => {
+                    return e.name;
+                })
+                const attack = pok.attack
+                const name = pok.name;
+                const id = pok.id
+                const image = pok.image
+
+                let obj = {
+                    id,
+                    name,
+                    types,
+                    attack,
+                    image
+                }
+
+                pokDbObj.push(obj)
+            })
+        }
+        catch (err) {
+            res.status(400).json({
+                message: "Error DB query",
+                error: err
+            })
+        };
+
+        allPokemons = [...pokDbObj, ...pokApiObj];
+
+        return res.status(200).json(allPokemons);
     } catch (err) {
-        console.log("Searching Pokemons")
+        res.status(400).json({
+            error: err
+        })
     }
-}; */
+};
 
 const getApiPokemons = async (req, res) => {
 
@@ -81,20 +184,18 @@ const getApiPokemons = async (req, res) => {
 
 const getDbPokemons = async (req, res) => {
     try {
-
         let pokemons = [];
         let pokObj = []
 
         try {
-
             // search pokemons in DB
             pokemons = await Pokemon.findAll({
                 include: Tipo
             });
         }
         catch (err) {
-            console.log("No se pudo guardar en la DB")
-        }
+            res.status(401).json("Error in DB query")
+        };
 
         pokemons.forEach(pok => {
             const types = pok.tipos.map(e => {
@@ -116,9 +217,9 @@ const getDbPokemons = async (req, res) => {
             pokObj.push(obj)
         })
 
-        return res.status(200).json(pokObj)
-
-    } catch (err) {
+        return res.status(200).json(pokObj);
+    }
+    catch (err) {
         res.status(400).json({
             error: err
         })
@@ -126,9 +227,8 @@ const getDbPokemons = async (req, res) => {
 };
 
 const getPokemonsByName = async (req, res) => {
-
     try {
-
+        // name from url query
         const { pokemonName } = req.query;
 
         if (!pokemonName) {
@@ -168,8 +268,6 @@ const getPokemonsByName = async (req, res) => {
                 image
             }
 
-            console.log("OBJETO DB", dbObj)
-
         } catch (err) {
             console.log("Pokemon does not exist in DB")
         }
@@ -194,23 +292,22 @@ const getPokemonsByName = async (req, res) => {
             }
         }
         catch (err) {
-            console.log("Pokemon does not exist in API")
+            console.log("Pokemon does not exist in API");
         }
 
         if (apiPok != "") {
             return res.status(200).json(apiObj);
         }
 
-        if (dbPok != "") {
+        else if (dbPok != "") {
             return res.status(200).json(dbObj)
+        } else {
+            return res.status(401).json({
+                message: "Pokemon does not exists"
+            })
         }
-
-        return res.status(400).json({
-            message: "Pokemon does not exists"
-        })
-
     } catch (err) {
-        return res.status(400).json({
+        res.status(400).json({
             error: err
         })
     }
@@ -219,7 +316,6 @@ const getPokemonsByName = async (req, res) => {
 const getPokemonById = async (req, res) => {
 
     try {
-
         const { id } = req.params;
 
         // variables to validate
@@ -254,8 +350,8 @@ const getPokemonById = async (req, res) => {
             const defense = dbPok.defense
             const speed = dbPok.speed
             const image = dbPok.image
-    
-    
+
+
             dbObj = {
                 id: pokId,
                 name,
@@ -316,14 +412,16 @@ const getPokemonById = async (req, res) => {
         if (apiPok != "") {
             return res.status(200).json(apiObj);
         }
-        
-        return res.status(400).json({
-            message: "Not exist pokemons with that id"
-        })
 
+        if (id === undefined) {
+            return res.status(400).json({
+                message: "Does not exist pokemon with that id"
+            })
+        }
     } catch (err) {
         return res.status(400).json({
-            error: err
+            error: err,
+            message: "Query error"
         })
     }
 };
@@ -332,30 +430,44 @@ const createPokemon = async (req, res) => {
 
     try {
 
+        const { name, life, attack, defense, speed, height, weight, image, types } = req.body;
 
-        const { name, life, attack, defense, speed, height, weight,image, types } = req.body;
-
-        // create a new instance of Pokemon
-        const newPokemon = await Pokemon.create({
-            name,
-            life,
-            attack,
-            defense,
-            speed,
-            height,
-            weight, 
-            image
+        // validate if Pokemon exists or not in DB
+        const validatePok = await Pokemon.findOne({
+            where: {
+                name: name
+            }
         });
 
-        await newPokemon.addTipos(types)
+        if (validatePok === null) {
+            // create a new instance of Pokemon
+            const newPokemon = await Pokemon.create({
+                name,
+                life,
+                attack,
+                defense,
+                speed,
+                height,
+                weight,
+                image
+            });
 
-        return res.status(200).json(newPokemon)
+            await newPokemon.addTipos(types)
+
+            return res.status(200).json(newPokemon)
+        }
+
+        return res.status(401).json({
+            message: "Pokemon already exists in DB"
+        });
+
 
     } catch (err) {
         return res.status(400).json({
-            error: err
+            error: err,
+            message: "Pokemon can not be created"
         })
     }
 };
 
-module.exports = { getPokemonsByName, getPokemonById, createPokemon, getApiPokemons, getDbPokemons };
+module.exports = { getPokemonsByName, getPokemonById, createPokemon, getPokemons, getDbPokemons, getApiPokemons };

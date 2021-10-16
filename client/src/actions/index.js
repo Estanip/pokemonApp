@@ -4,8 +4,7 @@ export function getPokemons() {
     return async function (dispatch) {
         try {
             const apiPok = await axios.get('http://localhost:3001/pokemons/all');
-            const dbPok = await axios.get('http://localhost:3001/pokemons/db');
-            const pokemonList = [...apiPok.data, ...dbPok.data]
+            const pokemonList = apiPok.data;
             return dispatch({
                 type: 'GET_POKEMONS',
                 data: pokemonList
