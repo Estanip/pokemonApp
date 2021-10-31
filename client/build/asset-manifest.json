@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/static/css/main.74f75507.chunk.css",
+    "main.js": "/static/js/main.66da47fd.chunk.js",
+    "main.js.map": "/static/js/main.66da47fd.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.071ecfa6.js",
+    "runtime-main.js.map": "/static/js/runtime-main.071ecfa6.js.map",
+    "static/css/2.f4c56af9.chunk.css": "/static/css/2.f4c56af9.chunk.css",
+    "static/js/2.15699630.chunk.js": "/static/js/2.15699630.chunk.js",
+    "static/js/2.15699630.chunk.js.map": "/static/js/2.15699630.chunk.js.map",
+    "static/js/3.61225d9e.chunk.js": "/static/js/3.61225d9e.chunk.js",
+    "static/js/3.61225d9e.chunk.js.map": "/static/js/3.61225d9e.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/2.f4c56af9.chunk.css.map": "/static/css/2.f4c56af9.chunk.css.map",
+    "static/css/main.74f75507.chunk.css.map": "/static/css/main.74f75507.chunk.css.map",
+    "static/js/2.15699630.chunk.js.LICENSE.txt": "/static/js/2.15699630.chunk.js.LICENSE.txt",
+    "static/media/Landing.css": "/static/media/app_back.324287bb.png",
+    "static/media/PokemonDetail.css": "/static/media/water.a4018827.png",
+    "static/media/pokebola.84021ec3.png": "/static/media/pokebola.84021ec3.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.071ecfa6.js",
+    "static/css/2.f4c56af9.chunk.css",
+    "static/js/2.15699630.chunk.js",
+    "static/css/main.74f75507.chunk.css",
+    "static/js/main.66da47fd.chunk.js"
+  ]
+}
