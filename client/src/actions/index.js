@@ -1,9 +1,11 @@
 import axios from 'axios';
 
+const url = "https://pokemonappapi2.herokuapp.com/pokemons/"
+
 export function getPokemons() {
     return async function (dispatch) {
         try {
-            const apiPok = await axios.get('http://localhost:3001/pokemons/all');
+            const apiPok = await axios.get(`${url}all`);
             const pokemonList = apiPok.data;
             return dispatch({
                 type: 'GET_POKEMONS',
@@ -18,7 +20,7 @@ export function getPokemons() {
 export function getDbPokemons() {
     return async function (dispatch) {
         try {
-            const pokemons = await axios.get('http://localhost:3001/pokemons/db');
+            const pokemons = await axios.get(`${url}db`);
             return dispatch({
                 type: 'GET_DB_POKEMONS',
                 data: pokemons.data
@@ -32,7 +34,7 @@ export function getDbPokemons() {
 export function getPokemonById(id) {
     return async function (dispatch) {
         try {
-            const result = await axios.get(`http://localhost:3001/pokemons/${id}`);
+            const result = await axios.get(`${url}${id}`);
             return dispatch({
                 type: 'GET_POKEMON_BY_ID',
                 data: result.data,
@@ -61,7 +63,7 @@ export function getPokemonsByType(type) {
 export function getTypes() {
     return async function (dispatch) {
         try {
-            const results = await axios.get('http://localhost:3001/types');
+            const results = await axios.get('https://pokemonappapi2.herokuapp.com/types');
             return dispatch({
                 type: 'GET_TYPES',
                 data: results.data
@@ -74,7 +76,7 @@ export function getTypes() {
 
 export function createPokemon(data) {
     return async function (dispatch) {
-        const newPokemon = await axios.post('http://localhost:3001/pokemons', data)
+        const newPokemon = await axios.post(url, data)
         return dispatch({
             type: 'CREATE_POKEMON',
             data: newPokemon,
