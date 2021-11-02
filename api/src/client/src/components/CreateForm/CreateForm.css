@@ -1,0 +1,36 @@
+.btn-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background-color: #C4D6D9;
+}
+
+.btn-form .create__btn {
+    padding: 10px;
+    margin: 5px;
+    border: none;
+    width: 90%;
+    background-color:  #CC0000; 
+    text-align: center;
+    text-transform: uppercase;
+    color: #FBFBFC;
+    font-size: 13px;
+}
+
+.btn-form .create__btn:hover {
+    color: #CC0000; 
+    background: white;
+}
+
+@keyframes blinker {
+    50% {
+      opacity: 0;
+    }
+  }
+
+.btn-form .create__btn {
+    animation: blinker 1s step-start infinite;
+  }
+  
+ 

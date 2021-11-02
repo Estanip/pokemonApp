@@ -1,0 +1,6 @@
+.cards-container {
+    width: 80%;
+    display: grid;
+    margin: 0 auto;
+    grid-template-columns: 33% 33% 33%;
+}

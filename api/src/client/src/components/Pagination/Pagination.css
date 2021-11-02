@@ -1,0 +1,60 @@
+@import url(https://fonts.googleapis.com/css?family=Sigmar+One);
+
+.pagination-container {
+    display: inline-block;
+    background-color: #FBFBFC;
+    background-repeat: no-repeat;
+    min-height: 100%;
+    min-width: 100%;
+    background-size: cover;
+    margin-top: 40px;
+    margin-bottom: 40px ;
+}
+
+.btnPage__container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 150px;
+    padding-left: 60px;
+    width: 70%;
+    margin-bottom: 20px;
+}
+
+.page__btn {
+    width: 100%;
+}
+
+.page__btn button {
+    padding: 8px 15px 8px 15px;
+    margin: 5px;
+    border: none;
+    width: 30%;
+    background-color:  #C4D6D9;
+    border-radius: 20px;
+    text-align: center;
+    text-transform: uppercase;
+    color:     #3B4CCA; 
+    font-size: 13px;
+}
+
+.page__btn button:hover {
+    color: #CC0000; 
+    background: #FBFBFC;
+}
+
+.page__btn #btnDisabled {
+    color:  #FBFBFC;
+    background: #FBFBFC;
+}
+
+.message__container {
+    margin-top: 20px;
+    padding-top: 40px;
+}
+
+.btns-container {
+    display: flex;
+    margin-right: -120px;
+    margin-left: 110px;
+}

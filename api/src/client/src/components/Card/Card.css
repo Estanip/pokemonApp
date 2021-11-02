@@ -1,0 +1,231 @@
+.bug-container {
+    background-size: cover;
+    opacity: 0.78;
+    margin: 10px;
+    border: none;
+    background-image: url( '../../assets/images/backImages/bug.jpg');
+}
+
+.rock-container {
+    background-size: cover;
+    opacity: 0.78;
+    margin: 10px;
+    border: none;
+    background-image: url( '../../assets/images/backImages/rock.jpg');
+}
+
+.fighting-container {
+    background-size: cover;
+    opacity: 0.78;
+    margin: 10px;
+    border: none;
+    background-image: url( '../../assets/images/backImages/fighting.jpg');
+}
+
+.steel-container {
+    background-size: cover;
+    opacity: 0.78;
+    margin: 10px;
+    border: none;
+    background-image: url( '../../assets/images/backImages/steel.png');
+}
+
+
+.dark-container {
+    background-size: cover;
+    opacity: 0.78;
+    margin: 10px;
+    border: none;
+    background-image: url( '../../assets/images/backImages/dark.jpg');
+}
+
+.dragon-container {
+    background-size: cover;
+    opacity: 0.78;
+    margin: 10px;
+    border: none;
+    background-image: url( '../../assets/images/backImages/shadow.jpg');
+}
+
+.shadow-container {
+    background-size: cover;
+    opacity: 0.78;
+    margin: 10px;
+    border: none;
+    background-image: url( '../../assets/images/backImages/dragon.jpg');
+}
+
+
+.psychic-container {
+    background-size: cover;
+    opacity: 0.78;
+    margin: 10px;
+    border: none;
+    background-image: url( '../../assets/images/backImages/psychic.jpg');
+}
+
+
+.ice-container {
+    background-size: cover;
+    opacity: 0.78;
+    margin: 10px;
+    border: none;
+    background-image: url( '../../assets/images/backImages/water.png');
+}
+
+
+.ghost-container {
+    background-size: cover;
+    opacity: 0.78;
+    margin: 10px;
+    border: none;
+    background-image: url( '../../assets/images/backImages/poison.jpg');
+}
+
+
+.fire-container {
+    opacity: 0.78;
+    background-size: cover;
+    margin: 10px;
+    border: none;
+    background-image: url( '../../assets/images/backImages/fire.jpg');
+}
+
+.normal-container {
+    opacity: 0.78;
+    background-size: cover;
+    margin: 10px;
+    border: none;
+    background-image: url( '../../assets/images/backImages/normal.jpg');
+}
+
+.poison-container {
+    opacity: 0.78;
+    background-size: cover;
+    margin: 10px;
+    border: none;
+    background-image: url( '../../assets/images/backImages/poison.jpg');
+}
+
+.flying-container {
+    opacity: 0.78;
+    background-size: cover;
+    margin: 10px;
+    border: none;
+    background-image: url( '../../assets/images/backImages/flying.jpg');
+}
+
+.grass-container {
+    opacity: 0.78;
+    background-size: cover;
+    margin: 10px;
+    border: none;
+    background-image: url( '../../assets/images/backImages/bug.jpg');
+}
+
+.electric-container {
+    opacity: 0.78;
+    background-size: cover;
+    margin: 10px;
+    border: none;
+    background-image: url('../../assets/images/backImages/electric.jpg');
+}
+
+.fairy-container {
+    opacity: 0.78;
+    background-size: cover;
+    margin: 10px;
+    border: none;
+    background-image: url( '../../assets/images/backImages/fairy.jpg');
+}
+
+.ground-container {
+    opacity: 0.78;
+    background-size: cover;
+    margin: 10px;
+    border: none;
+    background-image: url( '../../assets/images/backImages/ground.jpg');
+}
+
+
+.water-container {
+    opacity: 0.78;
+    background-size: cover;
+    margin: 10px;
+    border: none;
+    background-image: url( '../../assets/images/backImages/water.png');
+}
+
+.Name__card {
+    margin-top: 60px;
+    margin-bottom: 20px;
+    text-align: center;
+    text-transform: capitalize;
+    font-weight: 800;
+}
+
+.Name__card .title__name {
+    color: white;
+    text-decoration: none;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.Name__card .title__name:hover {
+    color: black;
+    text-decoration: none;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.Img__card {
+    text-align: center;
+}
+
+.Img__card img {
+    height: 100px;
+    /*mantiene la calidad de la imagen*/
+    -o-object-fit: cover;
+       object-fit: cover;
+}
+
+.Types__card {
+    display: inline-block;
+}
+
+.Force__card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.Force__card .force__title {
+    width: 40%;
+    height: 25px;
+    background-color:  #E8F3E2;
+    padding-top: 3px;
+    border-radius: 20px;
+    text-align: center;
+    text-transform: uppercase;
+    color:  #CC0000;    
+    font-size: 13px;
+}
+
+
+.Force__card .force {
+    width: 20%;
+    height: 25px;
+    background-color: #C4D6D9;
+    border-radius: 10px;
+    padding-top: 3px;
+    border: none;
+    text-align: center;
+    color: #3B4CCA;
+    margin-left: -8px;
+    font-size: 12px;
+}
