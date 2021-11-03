@@ -1,0 +1,31 @@
+.searchByType-container { 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #E8F3E2;
+    padding-bottom: 10px;
+
+}
+
+.searchByType__form-container {
+    display: flex;
+}
+
+.btnSearchByType__container button {
+    padding: 8px 15px 8px 15px;
+    margin-top: 5px;
+    height: 30px;
+    width: 180px;
+    margin-left: 30px;
+    border: none;
+    background-color:  #C4D6D9;
+    text-align: center;
+    text-transform: uppercase;
+    color: #3B4CCA; 
+    font-size: 10px;
+}
+
+.btnSearchByType__container button:hover {
+    color: #CC0000; 
+    background: white;
+}

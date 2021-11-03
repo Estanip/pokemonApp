@@ -1,0 +1,14 @@
+.home-container {
+    height: 120px;
+}
+
+.options-container {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 50% 50%;
+    background-color: #C4D6D9;
+    height: 100%;
+    text-align: center;
+    justify-content: center;
+}
+

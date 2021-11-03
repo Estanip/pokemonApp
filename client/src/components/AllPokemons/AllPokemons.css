@@ -1,0 +1,25 @@
+.btn-allcontainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin-left: 20px;
+}
+
+.btn-allcontainer button {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: none;
+    padding: 10px;
+    background-color:  #CC0000; 
+    text-align: center;
+    text-transform: uppercase;
+    color: #FBFBFC;
+    font-size: 11px;
+}
+
+.btn-allcontainer button:hover {
+    color: #CC0000; 
+    background: white;
+}

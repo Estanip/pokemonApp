@@ -1,0 +1,22 @@
+.orderby-container {
+    display: flex;
+    height: 100%;
+    width: 600px;
+}
+
+.orderby-container button {
+    padding: 8px 15px 8px 15px;
+    margin: 10px;
+    border: none;
+    width: 100%;
+    background-color: #CC0000; 
+    text-align: center;
+    text-transform: uppercase;
+    color:white;
+    font-size: 10px;
+}
+
+.orderby-container button:hover {
+    color: #CC0000; 
+    background: white;
+}

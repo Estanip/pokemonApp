@@ -1,0 +1,19 @@
+.Navbar {
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+    background-color: #C4D6D9;
+    width: 100%;
+}
+
+.Navbar h2 {
+    color: #FBFBFC;
+    font-family: 'Pokemon Solid', sans-serif;
+    font-size: 40px
+}
+
+.btn__create__container {
+    display: flex;
+    justify-content: right;
+    margin-top: 20px;
+    margin-right: 40px;
+}
