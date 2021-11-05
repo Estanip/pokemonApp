@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const url = "https://pokemonappapi2.herokuapp.com"
+const url = "https://pokemon-app-estanip.herokuapp.com"
 
 export function getPokemons() {
     return async function (dispatch) {
