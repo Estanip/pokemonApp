@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const local = "http://localhost:3008";
-const prod = "https://pokemonappapi2.herokuapp.com";
+const prod = "https://pokemon-app-estanip.herokuapp.com";
 
 export function getPokemons() {
     return async function (dispatch) {
