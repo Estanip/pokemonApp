@@ -5,7 +5,7 @@ const url = "https://pokemon-app-estanip.herokuapp.com"
 export function getPokemons() {
     return async function (dispatch) {
         try {
-            const apiPok = await axios.get(`https://pokemon-app-estanip.herokuapp.com/pokemons/all`);
+            const apiPok = await axios.get(`${url}/pokemons/all`);
             const pokemonList = apiPok.data;
             return dispatch({
                 type: 'GET_POKEMONS',
