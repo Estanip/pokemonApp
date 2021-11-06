@@ -28,6 +28,7 @@ function OrderBy({ orderByForce, orderByName }) {
 
         await orderByForce(orderForce);
 
+        console.log("GET FORCE")
 
         if (orderForce === "ascendent") {
             setOrderForce("descendent")
